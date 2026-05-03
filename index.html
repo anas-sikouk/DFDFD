@@ -3,221 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad AI | Sidi Kacem Agency</title>
+    <title>AtlantaSanad Premium AI | Sidi Kacem Official</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
-        :root { --p-blue: #0054A6; --p-gold: #C5A059; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body { 
-            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
-            height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
-        
-        .app-shell { 
-            width: 100%; max-width: 500px; height: 94vh; 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
-            border-radius: 30px; display: flex; flex-direction: column; 
-            box-shadow: 0 50px 100px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.4);
-            position: relative; overflow: hidden;
+        /* 1. Global Variables & Base Styles */
+        :root {
+            --p-blue: #0054A6;
+            --s-blue: #003d7a;
+            --p-gold: #C5A059;
+            --bg-dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.94);
         }
 
-        .chat-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
-        .bubble { max-width: 85%; padding: 15px; border-radius: 20px; font-size: 14.5px; line-height: 1.6; animation: pop 0.3s ease-out; position: relative; }
-        .bubble-bot { background: white; align-self: flex-start; border-bottom-right-radius: 4px; border: 1px solid #e2e8f0; color: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .bubble-user { background: linear-gradient(135deg, var(--p-blue), #003d7a); color: white; align-self: flex-end; border-bottom-left-radius: 4px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-        .onboarding-form { background: white; border: 1px solid #e2e8f0; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .input-style { width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; outline: none; transition: 0.3s; font-size: 14px; }
-        .input-style:focus { border-color: var(--p-blue); box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.1); }
-        
-        .btn-start { background: var(--p-blue); color: white; padding: 14px; border-radius: 12px; font-weight: 800; width: 100%; margin-top: 10px; cursor: pointer; transition: 0.3s; }
-        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 84, 166, 0.3); }
+        body {
+            background-color: var(--bg-dark);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, #1e293b, #020617);
+        }
 
-        .typing-loader { display: flex; gap: 4px; padding: 5px; }
-        .dot { width: 6px; height: 6px; background: #cbd5e1; border-radius: 50%; animation: blink 1.4s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        @keyframes pop { from { opacity: 0; transform: scale(0.9) translateY(10px); } }
+        /* 2. Advanced 3D & Background Animations */
+        .bg-blobs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            background: var(--p-blue);
+            filter: blur(80px);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 50px) scale(1.2); }
+        }
+
+        /* 3. App Architecture */
+        .app-shell {
+            width: 100%;
+            max-width: 520px;
+            height: 94vh;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border-radius: 40px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.3);
+            position: relative;
+            transform: perspective(1000px);
+            transition: all 0.5s ease;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid #f1f5f9;
+            border-radius: 40px 40px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 4. Chat UI Components */
+        .chat-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-area::-webkit-scrollbar { width: 4px; }
+        .chat-area::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+        .bubble {
+            max-width: 85%;
+            padding: 16px 20px;
+            border-radius: 24px;
+            font-size: 14.5px;
+            line-height: 1.7;
+            position: relative;
+            animation: slideIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .bubble-bot {
+            background: white;
+            align-self: flex-start;
+            border-bottom-right-radius: 4px;
+            color: #1e293b;
+            border: 1px solid #f1f5f9;
+        }
+
+        .bubble-user {
+            background: linear-gradient(135deg, var(--p-blue), var(--s-blue));
+            color: white;
+            align-self: flex-end;
+            border-bottom-left-radius: 4px;
+        }
+
+        /* 5. Advanced Forms */
+        .onboarding-card {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 2px solid #f1f5f9;
+            background: #f8fafc;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .custom-input:focus {
+            border-color: var(--p-blue);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.1);
+        }
+
+        .btn-premium {
+            background: var(--p-blue);
+            color: white;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: 800;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 84, 166, 0.3);
+        }
+
+        /* 6. Professional Footer */
+        footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #f1f5f9;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .input-wrapper {
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #user-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 15px;
+            outline: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .send-trigger {
+            background: var(--p-blue);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* Typing Indicator */
+        .typing {
+            display: flex;
+            gap: 4px;
+            padding: 10px;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
     </style>
 </head>
 <body>
 
-<div class="app-shell">
-    <header class="p-5 bg-white border-b flex items-center justify-between z-10 shadow-sm">
-        <div class="flex items-center gap-3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-10" alt="Logo">
-            <div>
-                <p class="text-[10px] font-black text-blue-600 tracking-tighter uppercase">Sidi Kacem Agency</p>
-                <h1 class="text-sm font-black text-slate-800">أطلنطا سند - المساعد الذكي</h1>
-            </div>
-        </div>
-        <a href="tel:0537595910" class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center shadow-md hover:scale-110 transition"><i class="fas fa-phone"></i></a>
-    </header>
-
-    <div id="chat-box" class="chat-container">
-        <div class="onboarding-form" id="setup-box">
-            <h2 class="text-center font-black text-slate-700 mb-5 text-lg">مرحباً بك في وكالة سيدي قاسم</h2>
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 block mb-1">الاسم الكامل / NOM COMPLET</label>
-                    <input type="text" id="user-name" class="input-style" placeholder="مثال: محمد العلمي">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 block mb-1">رقم الهاتف / TÉLÉPHONE</label>
-                    <input type="tel" id="user-phone" class="input-style" placeholder="06 / 07 ...">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-slate-400 block mb-1">اللغة / LANGUE</label>
-                    <select id="user-lang" class="input-style">
-                        <option value="ar">الدارجة المغربية 🇲🇦</option>
-                        <option value="fr">Français 🇫🇷</option>
-                    </select>
-                </div>
-                <button onclick="startExperience()" class="btn-start">دخول المحادثة</button>
-            </div>
-        </div>
+    <div class="bg-blobs">
+        <div class="blob" style="width: 400px; height: 400px; top: -100px; right: -100px;"></div>
+        <div class="blob" style="width: 300px; height: 300px; bottom: -50px; left: -50px; background: #C5A059;"></div>
     </div>
 
-    <footer class="p-4 bg-white border-t" id="input-bar" style="display: none;">
-        <div class="flex gap-2 bg-slate-100 p-2 rounded-2xl border border-slate-200 shadow-inner">
-            <input type="text" id="msg-input" class="flex-1 bg-transparent p-2 outline-none text-sm font-medium" placeholder="اسأل عن التأمين، الأسعار، الحوادث...">
-            <button onclick="processInput()" class="bg-blue-600 text-white w-11 h-11 rounded-xl shadow-md flex items-center justify-center hover:bg-blue-700 transition"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </footer>
-</div>
+    <div class="app-shell" id="main-shell">
+        <header>
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center p-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" alt="AtlantaSanad">
+                </div>
+                <div>
+                    <h2 class="text-sm font-black text-slate-800 uppercase tracking-wide">أطلنطا سند سيدي قاسم</h2>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">مساعد ذكي متصل</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <a href="tel:0537595910" class="w-10 h-10 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center border border-slate-100 hover:bg-green-500 hover:text-white transition shadow-sm">
+                    <i class="fas fa-phone-alt text-sm"></i>
+                </a>
+            </div>
+        </header>
 
-<script>
-    // الإعدادات التقنية
-    const OPENROUTER_API_KEY = "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";
-    let activeUser = { name: '', phone: '', lang: 'ar' };
+        <main class="chat-area" id="chat-viewport">
+            <div class="onboarding-card" id="auth-panel">
+                <h3 class="text-xl font-black text-slate-800 mb-2">مرحباً بك! 👋</h3>
+                <p class="text-sm text-slate-500 mb-6 font-medium">المرجو إدخال معلوماتك لبدء المحادثة مع المساعد الذكي لوكالة سيدي قاسم.</p>
+                
+                <div class="space-y-4">
+                    <div class="group">
+                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">الاسم الكامل / Nom Complet</label>
+                        <input type="text" id="reg-name" class="custom-input" placeholder="مثال: محمد العلمي">
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">رقم الهاتف / Téléphone</label>
+                        <input type="tel" id="reg-phone" class="custom-input" placeholder="06 / 07 / 05 ...">
+                    </div>
+                    <div>
+                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">اللغة المفضلة / Langue</label>
+                        <select id="reg-lang" class="custom-input">
+                            <option value="ar">الدارجة المغربية 🇲🇦</option>
+                            <option value="fr">Français 🇫🇷</option>
+                        </select>
+                    </div>
+                    <button onclick="Core.init()" class="btn-premium">
+                        <span>بدء المحادثة الآن</span>
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                </div>
+                <p class="mt-6 text-[10px] text-center text-slate-400 font-medium italic">جميع معلوماتك محمية ومشفرة وفق معايير وكالة أطلنطا سند.</p>
+            </div>
+        </main>
 
-    // 1. قاعدة البيانات الموسعة (Local Expert DB)
-    const LOCAL_KNOWLEDGE = {
-        'ar': {
-            'welcome': "شكراً سي {name}! ❤️ أنا المساعد الذكي لوكالة سيدي قاسم. كيفاش نقدر نعاونك بخصوص تأمين السيارات، السكن أو الحوادث؟",
-            'db': {
-                'auto': "🚗 **تأمين السيارات:** نوفر عروضاً متميزة للدراجات، السيارات، والشاحنات. احصل على خصم **10%** بعد سنتين بدون حوادث. يرجى إحضار البطاقة الرمادية للوكالة للحصول على تسعيرة دقيقة.",
-                'loc': "📍 **الموقع:** وكالتنا تتواجد في قلب سيدي قاسم: Nouveau Quartier, rue 5 imm. 80 n°3 rdc.",
-                'time': "🕒 **أوقات العمل:** من الاثنين إلى الجمعة (08:30 – 18:30). السبت (08:30 – 13:00).",
-                'accident': "⚠️ **في حالة حادثة:** حافظ على هدوئك. قم بملء المعاينة الودية (الكونسطا) وصور الأضرار، ثم زرنا في الوكالة مع عقد التأمين لنباشر إجراءات التعويض.",
-                'health': "🏥 **التغطية الصحية:** ندبر ملفات CNOPS و AMC لضمان تعويضات سريعة ومتابعة دقيقة لملفاتكم المرضية.",
-                'home': "🏠 **تأمين السكن:** احمِ منزلك من السرقة، الحريق، وتسربات المياه بأثمنة جد مناسبة سنوياً."
+        <footer id="chat-controls" style="display: none;">
+            <div class="input-wrapper">
+                <input type="text" id="user-input-field" placeholder="اكتب سؤالك هنا بخصوص التأمين...">
+                <button onclick="Core.handleMessage()" class="send-trigger">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * 7. Core Logic Engine (The Framework)
+         */
+        const Core = {
+            state: {
+                user: { name: '', phone: '', lang: 'ar' },
+                isTyping: false,
+                config: {
+                    apiKey: "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",
+                    emailJS: "bqWg9HMcoZY_pllTx"
+                }
+            },
+
+            // Professional Knowledge Base (Multi-lingual)
+            db: {
+                ar: {
+                    welcome: "أهلاً بك سي {name}! ❤️ أنا المساعد الذكي لوكالة سيدي قاسم. كيف يمكنني مساعدتك في تأمين سيارتك، منزلك، أو تتبع ملفاتك المرضية؟",
+                    knowledge: {
+                        'auto': "🚗 **تأمين السيارات:** نوفر عروضاً حصرية للدراجات والسيارات. استفد من خصم **10%** بعد سنتين من الوفاء. أحضر البطاقة الرمادية للوكالة للحصول على تسعيرة فورية.",
+                        'location': "📍 **موقعنا:** نتواجد بقلب سيدي قاسم: Nouveau Quartier, rue 5 imm. 80 n°3 rdc.",
+                        'hours': "🕒 **أوقات العمل:** من الاثنين للجمعة (08:30 – 18:30) والسبت (08:30 – 13:00).",
+                        'claims': "⚠️ **عند وقوع حادثة:** حافظ على هدوئك، املأ المعاينة الودية (الكونسطا) بوضوح وزرنا في الوكالة مع عقد التأمين لنقوم بالإجراءات فوراً.",
+                        'health': "🏥 **التغطية الصحية:** نقوم بتدبير ملفات CNOPS و AMC باحترافية لضمان تعويضكم في أقرب الآجال.",
+                        'home': "🏠 **تأمين السكن:** احمِ منزلك وممتلكاتك من السرقة والحريق بأثمنة تنافسية جداً."
+                    },
+                    keywords: {
+                        'ثمن': 'auto', 'سعر': 'auto', 'طوموبيل': 'auto', 'سيارة': 'auto', 'devis': 'auto',
+                        'فين': 'location', 'بلاصة': 'location', 'عنوان': 'location', 'adresse': 'location',
+                        'وقت': 'hours', 'ساعة': 'hours', 'توقيت': 'hours', 'ouvert': 'hours',
+                        'كسيدة': 'claims', 'حادثة': 'claims', 'constat': 'claims', 'accident': 'claims',
+                        'مرض': 'health', 'cnops': 'health', 'دوسي': 'health', 'santé': 'health',
+                        'دار': 'home', 'سكن': 'home', 'appartement': 'home'
+                    },
+                    ai_context: "أنت المساعد الذكي الرسمي لوكالة أطلنطا سند للتأمين في مدينة سيدي قاسم المغربية. اسم الزبون هو {name}. جاوب بالدارجة المغربية بأسلوب مهني ومحترم. لا تقدم نصائح قانونية نهائية بل شجعهم على زيارة الوكالة."
+                },
+                fr: {
+                    welcome: "Bienvenue M. {name} ! 👋 Je suis l'assistant digital d'AtlantaSanad Sidi Kacem. Comment puis-je vous assister aujourd'hui ?",
+                    knowledge: {
+                        'auto': "🚗 **Assurance Auto :** Tarifs compétitifs avec remise de **10%** fidélité. Apportez votre carte grise à l'agence pour un devis.",
+                        'location': "📍 **Adresse :** Nous sommes situés à : Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.",
+                        'hours': "🕒 **Horaire :** Lundi au Vendredi (08:30 – 18:30) et Samedi (08:30 – 13:00).",
+                        'claims': "⚠️ **Sinistre :** En cas d'accident, remplissez le constat et passez à l'agence avec votre contrat d'assurance.",
+                        'health': "🏥 **Santé :** Gestion rigoureuse de vos dossiers CNOPS et AMC pour un remboursement rapide.",
+                        'home': "🏠 **Habitation :** Protégez votre foyer contre le vol et l'incendie à des tarifs très attractifs."
+                    },
+                    keywords: {
+                        'prix': 'auto', 'tarif': 'auto', 'voiture': 'auto', 'devis': 'auto',
+                        'adresse': 'location', 'lieu': 'location', 'place': 'location',
+                        'temps': 'hours', 'horaire': 'hours', 'ouvert': 'hours',
+                        'accident': 'claims', 'constat': 'claims', 'sinistre': 'claims',
+                        'maladie': 'health', 'cnops': 'health', 'santé': 'health',
+                        'maison': 'home', 'appartement': 'home', 'habitation': 'home'
+                    },
+                    ai_context: "Vous êtes l'assistant IA officiel d'AtlantaSanad Sidi Kacem. Le client s'appelle {name}. Répondez professionnellement en français."
+                }
+            },
+
+            // 8. Initialization System
+            init() {
+                const n = document.getElementById('reg-name').value.trim();
+                const p = document.getElementById('reg-phone').value.trim();
+                const l = document.getElementById('reg-lang').value;
+
+                if (n.length < 3 || p.length < 10) {
+                    alert("المرجو إدخال معلومات صحيحة!");
+                    return;
+                }
+
+                this.state.user = { name: n, phone: p, lang: l };
+
+                // EmailJS Lead Notification
+                emailjs.init(this.state.config.emailJS);
+                emailjs.send("service_3elb747", "template_lbf8ayd", {
+                    from_name: n,
+                    phone_number: p,
+                    selected_language: l,
+                    agency: "Sidi Kacem Agency"
+                });
+
+                // UI Transition
+                document.getElementById('auth-panel').style.display = 'none';
+                document.getElementById('chat-controls').style.display = 'block';
+
+                this.say(this.db[l].welcome.replace('{name}', n), 'bot');
+            },
+
+            // 9. Messaging & Logic Engine
+            async handleMessage() {
+                const input = document.getElementById('user-input-field');
+                const text = input.value.trim();
+                if (!text || this.state.isTyping) return;
+
+                this.say(text, 'user');
+                input.value = "";
+
+                const lang = this.state.user.lang;
+                const lowerText = text.toLowerCase();
+                let foundMatch = false;
+
+                // local NLP Keyword Search
+                for (let key in this.db[lang].keywords) {
+                    if (lowerText.includes(key)) {
+                        const targetKey = this.db[lang].keywords[key];
+                        const reply = this.db[lang].knowledge[targetKey];
+                        setTimeout(() => this.say(reply, 'bot'), 600);
+                        foundMatch = true;
+                        break;
+                    }
+                }
+
+                // If no local match, call OpenRouter AI
+                if (!foundMatch) {
+                    await this.callAI(text);
+                }
+            },
+
+            // 10. AI API Integration
+            async callAI(prompt) {
+                this.state.isTyping = true;
+                const tid = "t-" + Date.now();
+                this.say('<div class="typing"><div class="dot"></div><div class="dot" style="animation-delay:0.2s"></div><div class="dot" style="animation-delay:0.4s"></div></div>', 'bot', tid);
+
+                try {
+                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${this.state.config.apiKey}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-4o-mini",
+                            messages: [
+                                { role: "system", content: this.db[this.state.user.lang].ai_context.replace('{name}', this.state.user.name) },
+                                { role: "user", content: prompt }
+                            ]
+                        })
+                    });
+
+                    const data = await response.json();
+                    document.getElementById(tid).remove();
+                    this.say(data.choices[0].message.content, 'bot');
+                } catch (e) {
+                    document.getElementById(tid).innerHTML = "نعتذر، وقع خطأ في الاتصال بالسيرفر. المرجو إعادة المحاولة.";
+                } finally {
+                    this.state.isTyping = false;
+                }
+            },
+
+            // UI Rendering Helper
+            say(msg, side, id = "") {
+                const viewport = document.getElementById('chat-viewport');
+                const div = document.createElement('div');
+                div.className = `bubble bubble-${side}`;
+                if (id) div.id = id;
+                div.innerHTML = msg;
+                viewport.appendChild(div);
+                viewport.scrollTop = viewport.scrollHeight;
             }
-        },
-        'fr': {
-            'welcome': "Merci M. {name} ! 👋 Je suis l'assistant digital de l'agence Sidi Kacem. Comment puis-je vous aider (Auto, Habitation, Sinistres) ?",
-            'db': {
-                'auto': "🚗 **Assurance Auto :** Tarifs compétitifs pour voitures et motos. **10% de remise** fidélité après 2 ans. Veuillez apporter votre Carte Grise à l'agence pour un devis.",
-                'loc': "📍 **Localisation :** Notre agence est située à : Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.",
-                'time': "🕒 **Horaires :** Lundi au Vendredi (08h30 – 18h30). Samedi (08h30 – 13h00).",
-                'accident': "⚠️ **Sinistre :** Remplissez le constat amiable, prenez des photos et présentez-vous à l'agence avec votre contrat d'assurance.",
-                'health': "🏥 **Santé :** Nous gérons vos dossiers CNOPS et AMC pour un remboursement rapide et efficace.",
-                'home': "🏠 **Habitation :** Protégez votre foyer contre le vol et l'incendie à des tarifs très attractifs."
-            }
-        }
-    };
+        };
 
-    // 2. الكلمات المفتاحية الذكية (Keyword Mapping)
-    const KEYWORD_MAP = {
-        'سعر': 'auto', 'ثمن': 'auto', 'طوموبيل': 'auto', 'سيارة': 'auto', 'prix': 'auto', 'devis': 'auto',
-        'فين': 'loc', 'بلاصتكم': 'loc', 'عنوان': 'loc', 'adresse': 'loc', 'lieu': 'loc', 'location': 'loc',
-        'وقت': 'time', 'ساعة': 'time', 'خدمة': 'time', 'horaire': 'time', 'ouvert': 'time', 'فتح': 'time',
-        'كسيدة': 'accident', 'حادثة': 'accident', 'constat': 'accident', 'accident': 'accident', 'sinistre': 'accident',
-        'مرض': 'health', 'دوسي': 'health', 'طبيب': 'health', 'cnops': 'health', 'amc': 'health', 'santé': 'health',
-        'دار': 'home', 'سكن': 'home', 'maison': 'home', 'habitation': 'home'
-    };
-
-    function startExperience() {
-        const n = document.getElementById('user-name').value.trim();
-        const p = document.getElementById('user-phone').value.trim();
-        const l = document.getElementById('user-lang').value;
-
-        if (n.length < 3 || p.length < 10) {
-            alert(l === 'ar' ? "المرجو إدخال معلومات صحيحة!" : "Veuillez entrer des informations valides !");
-            return;
-        }
-
-        activeUser = { name: n, phone: p, lang: l };
-
-        // إرسال عبر EmailJS
-        emailjs.init("bqWg9HMcoZY_pllTx");
-        emailjs.send("service_3elb747", "template_lbf8ayd", {
-            from_name: n, phone_number: p, selected_language: l, agency: "Sidi Kacem"
+        // Enter key listener
+        document.getElementById('user-input-field').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') Core.handleMessage();
         });
 
-        document.getElementById('setup-box').style.display = 'none';
-        document.getElementById('input-bar').style.display = 'block';
-
-        const welcome = LOCAL_KNOWLEDGE[l].welcome.replace('{name}', n);
-        addMessage(welcome, 'bot');
-    }
-
-    async function processInput() {
-        const inp = document.getElementById('msg-input');
-        const text = inp.value.trim();
-        if (!text) return;
-
-        addMessage(text, 'user');
-        inp.value = "";
-
-        let found = false;
-        const lowerText = text.toLowerCase();
-
-        // البحث في الكلمات المفتاحية أولاً (سرعة الاستجابة)
-        for (let key in KEYWORD_MAP) {
-            if (lowerText.includes(key)) {
-                const dbKey = KEYWORD_MAP[key];
-                const reply = LOCAL_KNOWLEDGE[activeUser.lang].db[dbKey];
-                setTimeout(() => addMessage(reply, 'bot'), 600);
-                found = true;
-                break;
-            }
-        }
-
-        // إذا لم يجد رد محلي، ننتقل للذكاء الاصطناعي
-        if (!found) {
-            const tempId = "loader-" + Date.now();
-            addMessage('<div class="typing-loader"><div class="dot"></div><div class="dot" style="animation-delay:0.2s"></div><div class="dot" style="animation-delay:0.4s"></div></div>', 'bot', tempId);
-
-            try {
-                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-4o-mini",
-                        messages: [
-                            { role: "system", content: `You are the official AI assistant for AtlantaSanad Sidi Kacem. User name: ${activeUser.name}. Respond in Moroccan Darija if the user speaks Arabic. Agency Address: Nouveau Quartier, Sidi Kacem. Tel: 0537595910. Be professional and helpful.` },
-                            { role: "user", content: text }
-                        ]
-                    })
-                });
-                const data = await response.json();
-                document.getElementById(tempId).remove();
-                addMessage(data.choices[0].message.content, 'bot');
-            } catch (e) {
-                document.getElementById(tempId).innerHTML = "عذراً، حدث خطأ في الاتصال. المرجو المحاولة لاحقاً.";
-            }
-        }
-    }
-
-    function addMessage(content, side, id = "") {
-        const box = document.getElementById('chat-box');
-        const div = document.createElement('div');
-        div.className = `bubble bubble-${side}`;
-        if (id) div.id = id;
-        div.innerHTML = content;
-        box.appendChild(div);
-        box.scrollTop = box.scrollHeight;
-    }
-
-    document.getElementById('msg-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') processInput(); });
-</script>
+    </script>
 </body>
 </html>
