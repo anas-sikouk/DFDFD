@@ -3,30 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad Premium AI | Sidi Kacem Official</title>
+    <title>AtlantaSanad OS | Enterprise Intelligent Agent</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
-        /* 1. Global Variables & Base Styles */
         :root {
-            --p-blue: #0054A6;
-            --s-blue: #003d7a;
-            --p-gold: #C5A059;
-            --bg-dark: #0f172a;
-            --glass: rgba(255, 255, 255, 0.94);
+            --primary-glow: #00f0ff;
+            --secondary-glow: #0054A6;
+            --bg-dark: #02040a;
+            --glass-v1: rgba(10, 20, 40, 0.9);
+            --glass-v2: rgba(255, 255, 255, 0.03);
+            --border-glow: rgba(0, 240, 255, 0.3);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        .tech-font { font-family: 'Orbitron', sans-serif; }
 
         body {
             background-color: var(--bg-dark);
@@ -35,448 +30,313 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: radial-gradient(circle at top right, #1e293b, #020617);
+            color: #f8fafc;
         }
 
-        /* 2. Advanced 3D & Background Animations */
-        .bg-blobs {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        /* --- ADVANCED 3D BACKGROUND --- */
+        .grid-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center top;
+            animation: gridMove 20s linear infinite;
             z-index: -1;
-            overflow: hidden;
         }
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 1000px; } }
 
-        .blob {
-            position: absolute;
-            background: var(--p-blue);
-            filter: blur(80px);
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: float 20s infinite alternate ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(100px, 50px) scale(1.2); }
-        }
-
-        /* 3. App Architecture */
-        .app-shell {
-            width: 100%;
-            max-width: 520px;
-            height: 94vh;
-            background: var(--glass);
-            backdrop-filter: blur(25px);
+        /* --- APP ARCHITECTURE --- */
+        .system-core {
+            width: 100%; max-width: 500px; height: 94vh;
+            background: var(--glass-v1);
             border-radius: 40px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.3);
-            position: relative;
-            transform: perspective(1000px);
-            transition: all 0.5s ease;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 0 50px rgba(0, 84, 166, 0.3), inset 0 0 30px rgba(0, 240, 255, 0.1);
+            display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+            backdrop-filter: blur(25px);
         }
 
-        /* Header Styles */
-        header {
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid #f1f5f9;
-            border-radius: 40px 40px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Header UI */
+        .sys-header {
+            padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
         }
 
-        /* 4. Chat UI Components */
-        .chat-area {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            scroll-behavior: smooth;
-        }
+        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
 
-        .chat-area::-webkit-scrollbar { width: 4px; }
-        .chat-area::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        /* Chat Engine */
+        #chat-engine { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scrollbar-width: none; }
+        #chat-engine::-webkit-scrollbar { display: none; }
 
+        /* Bubble Engineering */
         .bubble {
-            max-width: 85%;
-            padding: 16px 20px;
-            border-radius: 24px;
-            font-size: 14.5px;
-            line-height: 1.7;
-            position: relative;
-            animation: slideIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            max-width: 85%; padding: 16px 20px; border-radius: 24px; font-size: 14.5px;
+            line-height: 1.7; position: relative; transition: 0.3s;
+            animation: slideIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
         .bubble-bot {
-            background: white;
-            align-self: flex-start;
-            border-bottom-right-radius: 4px;
-            color: #1e293b;
-            border: 1px solid #f1f5f9;
+            background: var(--glass-v2); border: 1px solid rgba(255,255,255,0.1);
+            align-self: flex-start; border-bottom-right-radius: 4px;
         }
-
         .bubble-user {
-            background: linear-gradient(135deg, var(--p-blue), var(--s-blue));
-            color: white;
-            align-self: flex-end;
-            border-bottom-left-radius: 4px;
+            background: linear-gradient(135deg, var(--secondary-glow), #003d7a);
+            align-self: flex-end; border-bottom-left-radius: 4px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); border: 1px solid rgba(0, 240, 255, 0.2);
         }
 
-        /* 5. Advanced Forms */
-        .onboarding-card {
-            background: white;
-            padding: 30px;
-            border-radius: 30px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        /* Feature Cards Inside Chat */
+        .feature-card {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(0,240,255,0.1);
+            border-radius: 15px; padding: 12px; margin-top: 10px; display: grid; grid-template-columns: 40px 1fr; gap: 10px;
         }
 
-        .custom-input {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 16px;
-            border: 2px solid #f1f5f9;
-            background: #f8fafc;
-            outline: none;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .custom-input:focus {
-            border-color: var(--p-blue);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.1);
-        }
-
-        .btn-premium {
-            background: var(--p-blue);
-            color: white;
-            padding: 16px;
-            border-radius: 16px;
-            font-weight: 800;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-premium:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 84, 166, 0.3);
-        }
-
-        /* 6. Professional Footer */
-        footer {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #f1f5f9;
-            border-radius: 0 0 40px 40px;
-        }
-
+        /* Interface Inputs */
+        .ui-footer { padding: 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); }
         .input-wrapper {
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: flex; background: rgba(255,255,255,0.05); border-radius: 20px; 
+            padding: 8px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        }
+        .input-wrapper:focus-within { border-color: var(--primary-glow); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
+        .input-wrapper input { flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; }
+        
+        .btn-send {
+            width: 45px; height: 45px; background: var(--secondary-glow); border-radius: 15px;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+        }
+        .btn-send:hover { background: var(--primary-glow); color: black; transform: scale(1.05); }
+
+        /* Lead Gen Screen */
+        #auth-screen {
+            position: absolute; inset: 0; background: var(--bg-dark); z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px;
         }
 
-        #user-input-field {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 15px;
-            outline: none;
-            font-size: 14px;
-            font-weight: 500;
+        .cyber-input {
+            width: 100%; background: #0a101f; border: 1px solid #1e293b; padding: 18px;
+            border-radius: 15px; margin-bottom: 15px; color: white; outline: none; transition: 0.3s;
         }
+        .cyber-input:focus { border-color: var(--primary-glow); background: #0f172a; }
 
-        .send-trigger {
-            background: var(--p-blue);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.3s;
+        .btn-launch {
+            width: 100%; padding: 18px; background: linear-gradient(90deg, var(--secondary-glow), var(--primary-glow));
+            color: white; border-radius: 15px; font-weight: 900; letter-spacing: 2px; transition: 0.4s;
         }
-
-        /* Typing Indicator */
-        .typing {
-            display: flex;
-            gap: 4px;
-            padding: 10px;
-        }
-
-        .dot {
-            width: 7px;
-            height: 7px;
-            background: #cbd5e1;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
+        .btn-launch:hover { letter-spacing: 4px; box-shadow: 0 0 30px var(--primary-glow); }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-blobs">
-        <div class="blob" style="width: 400px; height: 400px; top: -100px; right: -100px;"></div>
-        <div class="blob" style="width: 300px; height: 300px; bottom: -50px; left: -50px; background: #C5A059;"></div>
-    </div>
+    <div class="grid-bg"></div>
 
-    <div class="app-shell" id="main-shell">
-        <header>
+    <div class="system-core">
+        <div id="auth-screen">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-20 mb-6" alt="AtlantaSanad">
+            <h2 class="tech-font text-xl mb-2 tracking-tighter">AGENT IDENTITY CORE</h2>
+            <p class="text-gray-500 text-xs mb-8 uppercase tracking-widest text-center">بوابة وكالة سيدي قاسم الذكية</p>
+            
+            <input type="text" id="node-name" class="cyber-input" placeholder="الاسم الكامل / Nom Complet">
+            <input type="tel" id="node-phone" class="cyber-input" placeholder="رقم الهاتف / Téléphone">
+            <select id="node-lang" class="cyber-input">
+                <option value="ar">اللغة العربية (الدارجة)</option>
+                <option value="fr">Français Professionnel</option>
+            </select>
+            
+            <button onclick="Engine.launch()" class="btn-launch">LAUNCH SYSTEM</button>
+        </div>
+
+        <header class="sys-header flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center p-2">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" alt="AtlantaSanad">
+                <div class="relative">
+                    <div class="w-12 h-12 rounded-full border-2 border-cyan-400 p-1">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-full h-full object-contain" alt="Logo">
+                    </div>
+                    <div class="status-dot absolute bottom-0 right-0 border-2 border-black"></div>
                 </div>
                 <div>
-                    <h2 class="text-sm font-black text-slate-800 uppercase tracking-wide">أطلنطا سند سيدي قاسم</h2>
-                    <div class="flex items-center gap-1.5">
-                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">مساعد ذكي متصل</span>
-                    </div>
+                    <h3 class="font-black text-sm text-white tracking-wide">ATLANTA SANAD AI</h3>
+                    <p class="text-[9px] text-cyan-400 uppercase font-bold tracking-tighter">Engineering Hub | Sidi Kacem</p>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <a href="tel:0537595910" class="w-10 h-10 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center border border-slate-100 hover:bg-green-500 hover:text-white transition shadow-sm">
-                    <i class="fas fa-phone-alt text-sm"></i>
-                </a>
+            <div class="text-right">
+                <p id="clock" class="tech-font text-xs text-white">00:00:00</p>
+                <p class="text-[8px] text-gray-500 uppercase">SIDI KACEM - RDC</p>
             </div>
         </header>
 
-        <main class="chat-area" id="chat-viewport">
-            <div class="onboarding-card" id="auth-panel">
-                <h3 class="text-xl font-black text-slate-800 mb-2">مرحباً بك! 👋</h3>
-                <p class="text-sm text-slate-500 mb-6 font-medium">المرجو إدخال معلوماتك لبدء المحادثة مع المساعد الذكي لوكالة سيدي قاسم.</p>
-                
-                <div class="space-y-4">
-                    <div class="group">
-                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">الاسم الكامل / Nom Complet</label>
-                        <input type="text" id="reg-name" class="custom-input" placeholder="مثال: محمد العلمي">
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">رقم الهاتف / Téléphone</label>
-                        <input type="tel" id="reg-phone" class="custom-input" placeholder="06 / 07 / 05 ...">
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-black text-slate-400 uppercase mb-2 block">اللغة المفضلة / Langue</label>
-                        <select id="reg-lang" class="custom-input">
-                            <option value="ar">الدارجة المغربية 🇲🇦</option>
-                            <option value="fr">Français 🇫🇷</option>
-                        </select>
-                    </div>
-                    <button onclick="Core.init()" class="btn-premium">
-                        <span>بدء المحادثة الآن</span>
-                        <i class="fas fa-chevron-left text-xs"></i>
-                    </button>
-                </div>
-                <p class="mt-6 text-[10px] text-center text-slate-400 font-medium italic">جميع معلوماتك محمية ومشفرة وفق معايير وكالة أطلنطا سند.</p>
+        <div id="chat-engine">
             </div>
-        </main>
 
-        <footer id="chat-controls" style="display: none;">
+        <footer class="ui-footer" id="main-controls" style="display: none;">
             <div class="input-wrapper">
-                <input type="text" id="user-input-field" placeholder="اكتب سؤالك هنا بخصوص التأمين...">
-                <button onclick="Core.handleMessage()" class="send-trigger">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <input type="text" id="logic-input" placeholder="اسأل عن التأمين، الحوادث، أو CNOPS...">
+                <button onclick="Engine.process()" class="btn-send"><i class="fas fa-bolt"></i></button>
             </div>
+            <p class="text-[8px] text-center text-gray-600 mt-3 uppercase tracking-widest">Powered by Engineering Logic v4.2</p>
         </footer>
     </div>
 
     <script>
         /**
-         * 7. Core Logic Engine (The Framework)
+         * ATLANTA SANAD ENGINE - SIDI KACEM BRANCH
+         * PROFESSIONAL ARCHITECTURE
          */
-        const Core = {
-            state: {
-                user: { name: '', phone: '', lang: 'ar' },
-                isTyping: false,
-                config: {
-                    apiKey: "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",
-                    emailJS: "bqWg9HMcoZY_pllTx"
-                }
-            },
-
-            // Professional Knowledge Base (Multi-lingual)
-            db: {
+        const Engine = {
+            state: { user: null, active: false },
+            
+            // Comprehensive Logic Data
+            registry: {
                 ar: {
-                    welcome: "أهلاً بك سي {name}! ❤️ أنا المساعد الذكي لوكالة سيدي قاسم. كيف يمكنني مساعدتك في تأمين سيارتك، منزلك، أو تتبع ملفاتك المرضية؟",
-                    knowledge: {
-                        'auto': "🚗 **تأمين السيارات:** نوفر عروضاً حصرية للدراجات والسيارات. استفد من خصم **10%** بعد سنتين من الوفاء. أحضر البطاقة الرمادية للوكالة للحصول على تسعيرة فورية.",
-                        'location': "📍 **موقعنا:** نتواجد بقلب سيدي قاسم: Nouveau Quartier, rue 5 imm. 80 n°3 rdc.",
-                        'hours': "🕒 **أوقات العمل:** من الاثنين للجمعة (08:30 – 18:30) والسبت (08:30 – 13:00).",
-                        'claims': "⚠️ **عند وقوع حادثة:** حافظ على هدوئك، املأ المعاينة الودية (الكونسطا) بوضوح وزرنا في الوكالة مع عقد التأمين لنقوم بالإجراءات فوراً.",
-                        'health': "🏥 **التغطية الصحية:** نقوم بتدبير ملفات CNOPS و AMC باحترافية لضمان تعويضكم في أقرب الآجال.",
-                        'home': "🏠 **تأمين السكن:** احمِ منزلك وممتلكاتك من السرقة والحريق بأثمنة تنافسية جداً."
+                    welcome: "تم تفعيل البروتوكول بنجاح. 🟢\nمرحباً سي {name} في وكالة أطلنطا سند سيدي قاسم (Nouveau Quartier). \nنحن هنا لتدبير تأميناتك باحترافية. اسألني عن: **السيارات**، **الحوادث**، **البناء**، أو **التغطية الصحية**.",
+                    categories: {
+                        auto: {
+                            trigger: ['سيارة', 'طوموبيل', 'دراجة', 'موطور', 'ثلاثية', 'تخفيض', '10%', 'سنتين'],
+                            content: `🚗 **منظومة تأمين المركبات:** <div class="feature-card"><i class="fas fa-check-circle text-cyan-400"></i> تشمل السيارات، الدراجات، والدراجات ثلاثية العجلات.</div>
+                            <div class="highlight-box">
+                                🎁 **قاعدة الوفاء (24 شهر):** بعد سنتين من الانخراط، نمنحك **خصم 10%** تلقائياً كزبون وفي.
+                                <br>⚠️ **تنبيه هندسي:** في حالة وقوع حادثة وكنت **المسؤول**، يتم إلغاء هذا التخفيض فوراً لإعادة تقييم المخاطر.
+                            </div>`
+                        },
+                        sinistre: {
+                            trigger: ['حادث', 'كسيدة', 'خبير', 'تعويض', 'إصلاح', 'كونسطا', 'فاتورة', 'ديي'],
+                            content: `⚠️ **بروتوكول تدبير الحوادث (Sinistre):**
+                            إذا كنت **غير مسؤول** (أو مسؤوليتك أقل من 50%)، المسطرة كالتالي:
+                            1️⃣ **التصريح:** إحضار Constat + صور الأضرار + Devis أولي.
+                            2️⃣ **الخبرة:** نقوم بعمل Déclaration ونوجهك آلياً إلى **الخبير** المعتمد.
+                            3️⃣ **الموافقة:** الخبير يراجع الأثمنة (يقبلها أو يعدلها) ويعطيك الضوء الأخضر للإصلاح.
+                            4️⃣ **الاسترداد:** بعد الإصلاح، سلمنا **الفاتورة الأصلية** لنقوم بصرف التعويض لك.`
+                        },
+                        health: {
+                            trigger: ['صحة', 'مرض', 'cnops', 'amc', 'كنوبس', 'تغطية', 'ملف', 'انخراط'],
+                            content: `🏥 **إدارة التغطية الصحية (Medical Hub):**
+                            <div class="feature-card"><i class="fas fa-file-medical text-cyan-400"></i> **Gestion des adhésions:** نكلف بتدبير انخراطاتكم وتتبعها.</div>
+                            <div class="feature-card"><i class="fas fa-hospital text-cyan-400"></i> **CNOPS & AMC:** معالجة وتصريح ملفات التغطية الصحية التكميلية بكل دقة.</div>`
+                        },
+                        construction: {
+                            trigger: ['بناء', 'ورش', 'عقار', 'بني', 'chantier'],
+                            content: `🏗️ **تأمين البناء (Construction):** نوفر تغطية شاملة للمشاريع العقارية (Tous Risques Chantier) لضمان حماية استثماراتكم من الحوادث التقنية أو الأضرار الجسدية بالورش.`
+                        },
+                        contact: {
+                            trigger: ['عنوان', 'فين', 'موقع', 'تواصل', 'رقم', 'فاكس'],
+                            content: `📍 **البيانات اللوجستية:**
+                            - **العنوان:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.
+                            - **الفاكس/الهاتف:** 0537595910.
+                            - **طرق التواصل:** متاحون عبر الهاتف والفاكس والزيارة المباشرة للوكالة.`
+                        }
                     },
-                    keywords: {
-                        'ثمن': 'auto', 'سعر': 'auto', 'طوموبيل': 'auto', 'سيارة': 'auto', 'devis': 'auto',
-                        'فين': 'location', 'بلاصة': 'location', 'عنوان': 'location', 'adresse': 'location',
-                        'وقت': 'hours', 'ساعة': 'hours', 'توقيت': 'hours', 'ouvert': 'hours',
-                        'كسيدة': 'claims', 'حادثة': 'claims', 'constat': 'claims', 'accident': 'claims',
-                        'مرض': 'health', 'cnops': 'health', 'دوسي': 'health', 'santé': 'health',
-                        'دار': 'home', 'سكن': 'home', 'appartement': 'home'
-                    },
-                    ai_context: "أنت المساعد الذكي الرسمي لوكالة أطلنطا سند للتأمين في مدينة سيدي قاسم المغربية. اسم الزبون هو {name}. جاوب بالدارجة المغربية بأسلوب مهني ومحترم. لا تقدم نصائح قانونية نهائية بل شجعهم على زيارة الوكالة."
+                    fallback: "🤖 **نظام التحليل:** لم أتمكن من تحديد الخدمة المطلوبة بدقة. هل تقصد (تأمين السيارات، مسطرة التعويض عن الحوادث، أو ملفات CNOPS الصحية)؟"
                 },
                 fr: {
-                    welcome: "Bienvenue M. {name} ! 👋 Je suis l'assistant digital d'AtlantaSanad Sidi Kacem. Comment puis-je vous assister aujourd'hui ?",
-                    knowledge: {
-                        'auto': "🚗 **Assurance Auto :** Tarifs compétitifs avec remise de **10%** fidélité. Apportez votre carte grise à l'agence pour un devis.",
-                        'location': "📍 **Adresse :** Nous sommes situés à : Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.",
-                        'hours': "🕒 **Horaire :** Lundi au Vendredi (08:30 – 18:30) et Samedi (08:30 – 13:00).",
-                        'claims': "⚠️ **Sinistre :** En cas d'accident, remplissez le constat et passez à l'agence avec votre contrat d'assurance.",
-                        'health': "🏥 **Santé :** Gestion rigoureuse de vos dossiers CNOPS et AMC pour un remboursement rapide.",
-                        'home': "🏠 **Habitation :** Protégez votre foyer contre le vol et l'incendie à des tarifs très attractifs."
+                    welcome: "Protocole activé. 🟢\nBienvenue M. {name} au Hub Digital d'AtlantaSanad Sidi Kacem. \nExpertise en: **Auto**, **Sinistre**, **Construction** et **Santé (CNOPS/AMC)**.",
+                    categories: {
+                        auto: {
+                            trigger: ['auto', 'voiture', 'moto', 'triporteur', 'remise', '10%', 'fidélité'],
+                            content: `🚗 **Assurance Mobilité :** <div class="feature-card"><i class="fas fa-check-circle text-cyan-400"></i> Auto, Moto et **Triporteurs**.</div>
+                            <div class="highlight-box">
+                                🎁 **Règle Fidélité (24 mois):** Après 2 ans, profitez de **10% de remise**.
+                                <br>⚠️ **Attention:** En cas de sinistre responsable, cette remise est annulée.
+                            </div>`
+                        },
+                        sinistre: {
+                            trigger: ['accident', 'sinistre', 'expert', 'réparation', 'constat', 'devis', 'facture'],
+                            content: `⚠️ **Gestion des Sinistres :**
+                            Si responsabilité < 50% :
+                            1️⃣ **Déclaration:** Apportez Constat + Photos + Devis.
+                            2️⃣ **Expertise:** Nous lançons la déclaration et l'expertise technique.
+                            3️⃣ **Réparation:** Une fois le devis validé par l'expert, lancez les travaux.
+                            4️⃣ **Remboursement:** Remettez-nous la **Facture originale** pour paiement.`
+                        },
+                        health: {
+                            trigger: ['santé', 'maladie', 'cnops', 'amc', 'mutuelle', 'adhésion'],
+                            content: `🏥 **Pôle Santé :**
+                            <div class="feature-card"><i class="fas fa-file-medical text-cyan-400"></i> **Gestion des adhésions:** Suivi rigoureux de vos contrats.</div>
+                            <div class="feature-card"><i class="fas fa-hospital text-cyan-400"></i> **CNOPS & AMC:** Déclarations et suivi des remboursements maladie.</div>`
+                        },
+                        construction: {
+                            trigger: ['construction', 'chantier', 'bâtiment', 'décennale'],
+                            content: `🏗️ **Assurance Construction :** Protection complète pour vos chantiers contre les risques techniques et dommages ouvrage.`
+                        },
+                        contact: {
+                            trigger: ['adresse', 'où', 'lieu', 'fax', 'contact', 'téléphone'],
+                            content: `📍 **Coordonnées :**
+                            - **Adresse:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.
+                            - **Fax/Tél:** 0537595910.`
+                        }
                     },
-                    keywords: {
-                        'prix': 'auto', 'tarif': 'auto', 'voiture': 'auto', 'devis': 'auto',
-                        'adresse': 'location', 'lieu': 'location', 'place': 'location',
-                        'temps': 'hours', 'horaire': 'hours', 'ouvert': 'hours',
-                        'accident': 'claims', 'constat': 'claims', 'sinistre': 'claims',
-                        'maladie': 'health', 'cnops': 'health', 'santé': 'health',
-                        'maison': 'home', 'appartement': 'home', 'habitation': 'home'
-                    },
-                    ai_context: "Vous êtes l'assistant IA officiel d'AtlantaSanad Sidi Kacem. Le client s'appelle {name}. Répondez professionnellement en français."
+                    fallback: "🤖 **Analyseur:** Requête non reconnue. Souhaitez-vous des infos sur l'Auto, la procédure de Sinistre ou la Santé (AMC)?"
                 }
             },
 
-            // 8. Initialization System
-            init() {
-                const n = document.getElementById('reg-name').value.trim();
-                const p = document.getElementById('reg-phone').value.trim();
-                const l = document.getElementById('reg-lang').value;
+            launch() {
+                const n = document.getElementById('node-name').value.trim();
+                const p = document.getElementById('node-phone').value.trim();
+                const l = document.getElementById('node-lang').value;
 
-                if (n.length < 3 || p.length < 10) {
-                    alert("المرجو إدخال معلومات صحيحة!");
-                    return;
-                }
+                if(n.length < 3 || p.length < 10) return alert("Validation Failed: Enter Full Identity.");
 
                 this.state.user = { name: n, phone: p, lang: l };
-
-                // EmailJS Lead Notification
-                emailjs.init(this.state.config.emailJS);
-                emailjs.send("service_3elb747", "template_lbf8ayd", {
-                    from_name: n,
-                    phone_number: p,
-                    selected_language: l,
-                    agency: "Sidi Kacem Agency"
+                
+                // CRM Sync
+                emailjs.init("bqWg9HMcoZY_pllTx");
+                emailjs.send("service_3elb747", "template_lbf8ayd", { 
+                    from_name: n, phone_number: p, selected_language: l, source: "Advanced Engineering V4" 
                 });
 
-                // UI Transition
-                document.getElementById('auth-panel').style.display = 'none';
-                document.getElementById('chat-controls').style.display = 'block';
-
-                this.say(this.db[l].welcome.replace('{name}', n), 'bot');
+                document.getElementById('auth-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('auth-screen').style.display = 'none';
+                    document.getElementById('main-controls').style.display = 'block';
+                    this.say(this.registry[l].welcome.replace('{name}', n), 'bot');
+                }, 500);
             },
 
-            // 9. Messaging & Logic Engine
-            async handleMessage() {
-                const input = document.getElementById('user-input-field');
-                const text = input.value.trim();
-                if (!text || this.state.isTyping) return;
+            process() {
+                const input = document.getElementById('logic-input');
+                const rawText = input.value.trim();
+                if(!rawText) return;
 
-                this.say(text, 'user');
+                this.say(rawText, 'user');
                 input.value = "";
 
                 const lang = this.state.user.lang;
-                const lowerText = text.toLowerCase();
-                let foundMatch = false;
+                const query = rawText.toLowerCase();
+                let match = null;
 
-                // local NLP Keyword Search
-                for (let key in this.db[lang].keywords) {
-                    if (lowerText.includes(key)) {
-                        const targetKey = this.db[lang].keywords[key];
-                        const reply = this.db[lang].knowledge[targetKey];
-                        setTimeout(() => this.say(reply, 'bot'), 600);
-                        foundMatch = true;
+                for (let key in this.registry[lang].categories) {
+                    if(this.registry[lang].categories[key].trigger.some(t => query.includes(t))) {
+                        match = this.registry[lang].categories[key].content;
                         break;
                     }
                 }
 
-                // If no local match, call OpenRouter AI
-                if (!foundMatch) {
-                    await this.callAI(text);
-                }
+                setTimeout(() => {
+                    this.say(match || this.registry[lang].fallback, 'bot');
+                }, 700);
             },
 
-            // 10. AI API Integration
-            async callAI(prompt) {
-                this.state.isTyping = true;
-                const tid = "t-" + Date.now();
-                this.say('<div class="typing"><div class="dot"></div><div class="dot" style="animation-delay:0.2s"></div><div class="dot" style="animation-delay:0.4s"></div></div>', 'bot', tid);
-
-                try {
-                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${this.state.config.apiKey}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            model: "gpt-4o-mini",
-                            messages: [
-                                { role: "system", content: this.db[this.state.user.lang].ai_context.replace('{name}', this.state.user.name) },
-                                { role: "user", content: prompt }
-                            ]
-                        })
-                    });
-
-                    const data = await response.json();
-                    document.getElementById(tid).remove();
-                    this.say(data.choices[0].message.content, 'bot');
-                } catch (e) {
-                    document.getElementById(tid).innerHTML = "نعتذر، وقع خطأ في الاتصال بالسيرفر. المرجو إعادة المحاولة.";
-                } finally {
-                    this.state.isTyping = false;
-                }
-            },
-
-            // UI Rendering Helper
-            say(msg, side, id = "") {
-                const viewport = document.getElementById('chat-viewport');
+            say(txt, side) {
+                const viewport = document.getElementById('chat-engine');
                 const div = document.createElement('div');
                 div.className = `bubble bubble-${side}`;
-                if (id) div.id = id;
-                div.innerHTML = msg;
+                div.innerHTML = txt.replace(/\n/g, '<br>');
                 viewport.appendChild(div);
-                viewport.scrollTop = viewport.scrollHeight;
+                viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
             }
         };
 
-        // Enter key listener
-        document.getElementById('user-input-field').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') Core.handleMessage();
-        });
+        // Real-time Clock Logic
+        setInterval(() => {
+            const d = new Date();
+            document.getElementById('clock').innerText = d.toTimeString().split(' ')[0];
+        }, 1000);
 
+        // Enter Key Listener
+        document.getElementById('logic-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') Engine.process(); });
     </script>
 </body>
 </html>
