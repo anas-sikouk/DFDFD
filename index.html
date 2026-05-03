@@ -3,340 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad OS | Enterprise Intelligent Agent</title>
+    <title>AtlantaSanad | Sidi Kacem Advanced Hub</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
         :root {
-            --primary-glow: #00f0ff;
-            --secondary-glow: #0054A6;
-            --bg-dark: #02040a;
-            --glass-v1: rgba(10, 20, 40, 0.9);
-            --glass-v2: rgba(255, 255, 255, 0.03);
-            --border-glow: rgba(0, 240, 255, 0.3);
+            --atlanta-blue: #0054A6;
+            --atlanta-dark: #003366;
+            --bg-light: #f8fafc;
+            --success: #22c55e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        .tech-font { font-family: 'Orbitron', sans-serif; }
 
-        body {
-            background-color: var(--bg-dark);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: #f8fafc;
+        body { background: #eef2f6; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+        .app-container {
+            width: 100%; max-width: 500px; height: 95vh;
+            background: white; border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 84, 166, 0.2);
+            display: flex; flex-direction: column; position: relative;
         }
 
-        /* --- ADVANCED 3D BACKGROUND --- */
-        .grid-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            transform-origin: center top;
-            animation: gridMove 20s linear infinite;
-            z-index: -1;
-        }
-        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 1000px; } }
-
-        /* --- APP ARCHITECTURE --- */
-        .system-core {
-            width: 100%; max-width: 500px; height: 94vh;
-            background: var(--glass-v1);
-            border-radius: 40px;
-            border: 1px solid var(--border-glow);
-            box-shadow: 0 0 50px rgba(0, 84, 166, 0.3), inset 0 0 30px rgba(0, 240, 255, 0.1);
-            display: flex; flex-direction: column;
-            position: relative; overflow: hidden;
-            backdrop-filter: blur(25px);
+        /* Branding Header */
+        header {
+            background: var(--atlanta-blue); padding: 20px; color: white;
+            display: flex; align-items: center; gap: 12px;
         }
 
-        /* Header UI */
-        .sys-header {
-            padding: 25px; border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+        .logo-wrap { width: 55px; height: 55px; background: white; border-radius: 12px; padding: 6px; }
+
+        /* Chat Stream */
+        #chat-stream {
+            flex: 1; padding: 20px; overflow-y: auto; background: var(--bg-light);
+            display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth;
         }
 
-        .status-dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
-
-        /* Chat Engine */
-        #chat-engine { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scrollbar-width: none; }
-        #chat-engine::-webkit-scrollbar { display: none; }
-
-        /* Bubble Engineering */
+        /* Advanced Bubbles */
         .bubble {
-            max-width: 85%; padding: 16px 20px; border-radius: 24px; font-size: 14.5px;
-            line-height: 1.7; position: relative; transition: 0.3s;
-            animation: slideIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            max-width: 85%; padding: 14px 18px; border-radius: 20px; font-size: 14px; line-height: 1.6;
+            animation: fadeIn 0.4s ease-out; position: relative;
         }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bubble-bot {
-            background: var(--glass-v2); border: 1px solid rgba(255,255,255,0.1);
-            align-self: flex-start; border-bottom-right-radius: 4px;
-        }
-        .bubble-user {
-            background: linear-gradient(135deg, var(--secondary-glow), #003d7a);
-            align-self: flex-end; border-bottom-left-radius: 4px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3); border: 1px solid rgba(0, 240, 255, 0.2);
-        }
+        .bubble-bot { background: white; color: #1e293b; align-self: flex-start; border-bottom-right-radius: 4px; border: 1px solid #e2e8f0; }
+        .bubble-user { background: var(--atlanta-blue); color: white; align-self: flex-end; border-bottom-left-radius: 4px; }
 
-        /* Feature Cards Inside Chat */
-        .feature-card {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(0,240,255,0.1);
-            border-radius: 15px; padding: 12px; margin-top: 10px; display: grid; grid-template-columns: 40px 1fr; gap: 10px;
-        }
+        /* Interaction Cards */
+        .action-card { background: white; border: 2px solid #e2e8f0; padding: 20px; border-radius: 20px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .sys-input { width: 100%; padding: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 10px; outline: none; transition: 0.3s; font-size: 13px; }
+        .sys-input:focus { border-color: var(--atlanta-blue); background: white; }
 
-        /* Interface Inputs */
-        .ui-footer { padding: 20px; background: rgba(0,0,0,0.4); border-top: 1px solid rgba(255,255,255,0.05); }
-        .input-wrapper {
-            display: flex; background: rgba(255,255,255,0.05); border-radius: 20px; 
-            padding: 8px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        /* Status Buttons */
+        .status-btn {
+            width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px;
+            border: 2px solid var(--atlanta-blue); color: var(--atlanta-blue);
+            font-weight: 700; cursor: pointer; transition: 0.3s; text-align: center;
         }
-        .input-wrapper:focus-within { border-color: var(--primary-glow); box-shadow: 0 0 15px rgba(0,240,255,0.2); }
-        .input-wrapper input { flex: 1; background: transparent; border: none; color: white; padding: 10px; outline: none; }
-        
-        .btn-send {
-            width: 45px; height: 45px; background: var(--secondary-glow); border-radius: 15px;
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
-        }
-        .btn-send:hover { background: var(--primary-glow); color: black; transform: scale(1.05); }
+        .status-btn:hover { background: var(--atlanta-blue); color: white; }
 
-        /* Lead Gen Screen */
-        #auth-screen {
-            position: absolute; inset: 0; background: var(--bg-dark); z-index: 100;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px;
-        }
+        /* Footer Interaction */
+        .footer-control { padding: 15px; background: white; border-top: 1px solid #f1f5f9; display: none; }
+        .input-group { display: flex; background: #f1f5f9; border-radius: 15px; padding: 5px; border: 1px solid #e2e8f0; }
+        .input-group input { flex: 1; background: transparent; border: none; padding: 10px; outline: none; font-size: 14px; }
+        .send-trigger { width: 40px; height: 40px; background: var(--atlanta-blue); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        .cyber-input {
-            width: 100%; background: #0a101f; border: 1px solid #1e293b; padding: 18px;
-            border-radius: 15px; margin-bottom: 15px; color: white; outline: none; transition: 0.3s;
-        }
-        .cyber-input:focus { border-color: var(--primary-glow); background: #0f172a; }
-
-        .btn-launch {
-            width: 100%; padding: 18px; background: linear-gradient(90deg, var(--secondary-glow), var(--primary-glow));
-            color: white; border-radius: 15px; font-weight: 900; letter-spacing: 2px; transition: 0.4s;
-        }
-        .btn-launch:hover { letter-spacing: 4px; box-shadow: 0 0 30px var(--primary-glow); }
-
+        .info-box { border-right: 4px solid var(--atlanta-blue); background: #f0f7ff; padding: 10px; border-radius: 8px; font-size: 13px; margin: 5px 0; }
     </style>
 </head>
 <body>
 
-    <div class="grid-bg"></div>
-
-    <div class="system-core">
-        <div id="auth-screen">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-20 mb-6" alt="AtlantaSanad">
-            <h2 class="tech-font text-xl mb-2 tracking-tighter">AGENT IDENTITY CORE</h2>
-            <p class="text-gray-500 text-xs mb-8 uppercase tracking-widest text-center">بوابة وكالة سيدي قاسم الذكية</p>
-            
-            <input type="text" id="node-name" class="cyber-input" placeholder="الاسم الكامل / Nom Complet">
-            <input type="tel" id="node-phone" class="cyber-input" placeholder="رقم الهاتف / Téléphone">
-            <select id="node-lang" class="cyber-input">
-                <option value="ar">اللغة العربية (الدارجة)</option>
-                <option value="fr">Français Professionnel</option>
-            </select>
-            
-            <button onclick="Engine.launch()" class="btn-launch">LAUNCH SYSTEM</button>
-        </div>
-
-        <header class="sys-header flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="relative">
-                    <div class="w-12 h-12 rounded-full border-2 border-cyan-400 p-1">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-full h-full object-contain" alt="Logo">
-                    </div>
-                    <div class="status-dot absolute bottom-0 right-0 border-2 border-black"></div>
-                </div>
-                <div>
-                    <h3 class="font-black text-sm text-white tracking-wide">ATLANTA SANAD AI</h3>
-                    <p class="text-[9px] text-cyan-400 uppercase font-bold tracking-tighter">Engineering Hub | Sidi Kacem</p>
-                </div>
+    <div class="app-container">
+        <header>
+            <div class="logo-wrap">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" alt="AtlantaSanad">
             </div>
-            <div class="text-right">
-                <p id="clock" class="tech-font text-xs text-white">00:00:00</p>
-                <p class="text-[8px] text-gray-500 uppercase">SIDI KACEM - RDC</p>
+            <div>
+                <h1 class="text-sm font-black uppercase">أطلنطا سند | سيدي قاسم</h1>
+                <div class="flex items-center gap-1">
+                    <span class="w-2 h-2 bg-green-400 rounded-full"></span>
+                    <p class="text-[9px] font-bold opacity-80 uppercase tracking-widest">Digital Assistant v6.0</p>
+                </div>
             </div>
         </header>
 
-        <div id="chat-engine">
+        <div id="chat-stream">
             </div>
 
-        <footer class="ui-footer" id="main-controls" style="display: none;">
-            <div class="input-wrapper">
-                <input type="text" id="logic-input" placeholder="اسأل عن التأمين، الحوادث، أو CNOPS...">
-                <button onclick="Engine.process()" class="btn-send"><i class="fas fa-bolt"></i></button>
+        <footer class="footer-control" id="footer-ui">
+            <div class="input-group">
+                <input type="text" id="user-msg" placeholder="اسأل عن التأمين أو الحوادث...">
+                <div class="send-trigger" onclick="App.handleChat()">
+                    <i class="fas fa-paper-plane"></i>
+                </div>
             </div>
-            <p class="text-[8px] text-center text-gray-600 mt-3 uppercase tracking-widest">Powered by Engineering Logic v4.2</p>
         </footer>
     </div>
 
     <script>
-        /**
-         * ATLANTA SANAD ENGINE - SIDI KACEM BRANCH
-         * PROFESSIONAL ARCHITECTURE
-         */
-        const Engine = {
-            state: { user: null, active: false },
-            
-            // Comprehensive Logic Data
-            registry: {
+        const App = {
+            state: { user: null, lang: 'ar', type: null },
+
+            content: {
                 ar: {
-                    welcome: "تم تفعيل البروتوكول بنجاح. 🟢\nمرحباً سي {name} في وكالة أطلنطا سند سيدي قاسم (Nouveau Quartier). \nنحن هنا لتدبير تأميناتك باحترافية. اسألني عن: **السيارات**، **الحوادث**، **البناء**، أو **التغطية الصحية**.",
-                    categories: {
-                        auto: {
-                            trigger: ['سيارة', 'طوموبيل', 'دراجة', 'موطور', 'ثلاثية', 'تخفيض', '10%', 'سنتين'],
-                            content: `🚗 **منظومة تأمين المركبات:** <div class="feature-card"><i class="fas fa-check-circle text-cyan-400"></i> تشمل السيارات، الدراجات، والدراجات ثلاثية العجلات.</div>
-                            <div class="highlight-box">
-                                🎁 **قاعدة الوفاء (24 شهر):** بعد سنتين من الانخراط، نمنحك **خصم 10%** تلقائياً كزبون وفي.
-                                <br>⚠️ **تنبيه هندسي:** في حالة وقوع حادثة وكنت **المسؤول**، يتم إلغاء هذا التخفيض فوراً لإعادة تقييم المخاطر.
-                            </div>`
-                        },
-                        sinistre: {
-                            trigger: ['حادث', 'كسيدة', 'خبير', 'تعويض', 'إصلاح', 'كونسطا', 'فاتورة', 'ديي'],
-                            content: `⚠️ **بروتوكول تدبير الحوادث (Sinistre):**
-                            إذا كنت **غير مسؤول** (أو مسؤوليتك أقل من 50%)، المسطرة كالتالي:
-                            1️⃣ **التصريح:** إحضار Constat + صور الأضرار + Devis أولي.
-                            2️⃣ **الخبرة:** نقوم بعمل Déclaration ونوجهك آلياً إلى **الخبير** المعتمد.
-                            3️⃣ **الموافقة:** الخبير يراجع الأثمنة (يقبلها أو يعدلها) ويعطيك الضوء الأخضر للإصلاح.
-                            4️⃣ **الاسترداد:** بعد الإصلاح، سلمنا **الفاتورة الأصلية** لنقوم بصرف التعويض لك.`
-                        },
-                        health: {
-                            trigger: ['صحة', 'مرض', 'cnops', 'amc', 'كنوبس', 'تغطية', 'ملف', 'انخراط'],
-                            content: `🏥 **إدارة التغطية الصحية (Medical Hub):**
-                            <div class="feature-card"><i class="fas fa-file-medical text-cyan-400"></i> **Gestion des adhésions:** نكلف بتدبير انخراطاتكم وتتبعها.</div>
-                            <div class="feature-card"><i class="fas fa-hospital text-cyan-400"></i> **CNOPS & AMC:** معالجة وتصريح ملفات التغطية الصحية التكميلية بكل دقة.</div>`
-                        },
-                        construction: {
-                            trigger: ['بناء', 'ورش', 'عقار', 'بني', 'chantier'],
-                            content: `🏗️ **تأمين البناء (Construction):** نوفر تغطية شاملة للمشاريع العقارية (Tous Risques Chantier) لضمان حماية استثماراتكم من الحوادث التقنية أو الأضرار الجسدية بالورش.`
-                        },
-                        contact: {
-                            trigger: ['عنوان', 'فين', 'موقع', 'تواصل', 'رقم', 'فاكس'],
-                            content: `📍 **البيانات اللوجستية:**
-                            - **العنوان:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.
-                            - **الفاكس/الهاتف:** 0537595910.
-                            - **طرق التواصل:** متاحون عبر الهاتف والفاكس والزيارة المباشرة للوكالة.`
-                        }
-                    },
-                    fallback: "🤖 **نظام التحليل:** لم أتمكن من تحديد الخدمة المطلوبة بدقة. هل تقصد (تأمين السيارات، مسطرة التعويض عن الحوادث، أو ملفات CNOPS الصحية)؟"
+                    intro: "مرحباً بك في وكالة سيدي قاسم. لكي نخدمك بشكل أفضل، المرجو إدخال بياناتك:",
+                    q_status: "تشرفنا سي {name}. هل أنت زبون حالي للشركة أم زبون جديد؟",
+                    btn_existing: "أنا زبون الوكالة",
+                    btn_new: "زبون جديد (أرغب في الانخراط)",
+                    existing_msg: "مرحباً بوفائك! 🌟 تذكر أنك تستفيد من خصم 10% بعد سنتين. كيف يمكنني مساعدتك اليوم؟",
+                    new_msg: "مرحباً بك في عائلتنا! 🤝 يسعدنا انضمامك. نوفر لك أفضل العروض على السيارات، البناء والصحة. ماذا تود أن تعرف؟",
+                    services: {
+                        auto: `🚗 **تأمين المركبات:** نؤمن السيارات، الدراجات، والـ Triporteurs.
+                               <div class="info-box">🎁 **نظام الوفاء:** خصم 10% بعد سنتين من الانخراط، ويُعرف أنه يُلغى في حال وقوع حادث بمسؤوليتك.</div>`,
+                        sinistre: `⚠️ **مسطرة الحوادث:** إذا لم تكن مسؤولاً (أقل من 50%):
+                                   <div class="info-box">1. أحضر Constat + صور + Devis.<br>2. نرسلك للخبير.<br>3. بعد الإصلاح، أحضر الفاتورة للتعويض.</div>`,
+                        health: `🏥 **الصحة:** تدبير ملفات CNOPS و AMC وتتبع الانخراطات بكل دقة.`,
+                        contact: `📍 **سيدي قاسم:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc.<br>📠 الفاكس: 0537595910`
+                    }
                 },
                 fr: {
-                    welcome: "Protocole activé. 🟢\nBienvenue M. {name} au Hub Digital d'AtlantaSanad Sidi Kacem. \nExpertise en: **Auto**, **Sinistre**, **Construction** et **Santé (CNOPS/AMC)**.",
-                    categories: {
-                        auto: {
-                            trigger: ['auto', 'voiture', 'moto', 'triporteur', 'remise', '10%', 'fidélité'],
-                            content: `🚗 **Assurance Mobilité :** <div class="feature-card"><i class="fas fa-check-circle text-cyan-400"></i> Auto, Moto et **Triporteurs**.</div>
-                            <div class="highlight-box">
-                                🎁 **Règle Fidélité (24 mois):** Après 2 ans, profitez de **10% de remise**.
-                                <br>⚠️ **Attention:** En cas de sinistre responsable, cette remise est annulée.
-                            </div>`
-                        },
-                        sinistre: {
-                            trigger: ['accident', 'sinistre', 'expert', 'réparation', 'constat', 'devis', 'facture'],
-                            content: `⚠️ **Gestion des Sinistres :**
-                            Si responsabilité < 50% :
-                            1️⃣ **Déclaration:** Apportez Constat + Photos + Devis.
-                            2️⃣ **Expertise:** Nous lançons la déclaration et l'expertise technique.
-                            3️⃣ **Réparation:** Une fois le devis validé par l'expert, lancez les travaux.
-                            4️⃣ **Remboursement:** Remettez-nous la **Facture originale** pour paiement.`
-                        },
-                        health: {
-                            trigger: ['santé', 'maladie', 'cnops', 'amc', 'mutuelle', 'adhésion'],
-                            content: `🏥 **Pôle Santé :**
-                            <div class="feature-card"><i class="fas fa-file-medical text-cyan-400"></i> **Gestion des adhésions:** Suivi rigoureux de vos contrats.</div>
-                            <div class="feature-card"><i class="fas fa-hospital text-cyan-400"></i> **CNOPS & AMC:** Déclarations et suivi des remboursements maladie.</div>`
-                        },
-                        construction: {
-                            trigger: ['construction', 'chantier', 'bâtiment', 'décennale'],
-                            content: `🏗️ **Assurance Construction :** Protection complète pour vos chantiers contre les risques techniques et dommages ouvrage.`
-                        },
-                        contact: {
-                            trigger: ['adresse', 'où', 'lieu', 'fax', 'contact', 'téléphone'],
-                            content: `📍 **Coordonnées :**
-                            - **Adresse:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.
-                            - **Fax/Tél:** 0537595910.`
-                        }
-                    },
-                    fallback: "🤖 **Analyseur:** Requête non reconnue. Souhaitez-vous des infos sur l'Auto, la procédure de Sinistre ou la Santé (AMC)?"
-                }
-            },
-
-            launch() {
-                const n = document.getElementById('node-name').value.trim();
-                const p = document.getElementById('node-phone').value.trim();
-                const l = document.getElementById('node-lang').value;
-
-                if(n.length < 3 || p.length < 10) return alert("Validation Failed: Enter Full Identity.");
-
-                this.state.user = { name: n, phone: p, lang: l };
-                
-                // CRM Sync
-                emailjs.init("bqWg9HMcoZY_pllTx");
-                emailjs.send("service_3elb747", "template_lbf8ayd", { 
-                    from_name: n, phone_number: p, selected_language: l, source: "Advanced Engineering V4" 
-                });
-
-                document.getElementById('auth-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('auth-screen').style.display = 'none';
-                    document.getElementById('main-controls').style.display = 'block';
-                    this.say(this.registry[l].welcome.replace('{name}', n), 'bot');
-                }, 500);
-            },
-
-            process() {
-                const input = document.getElementById('logic-input');
-                const rawText = input.value.trim();
-                if(!rawText) return;
-
-                this.say(rawText, 'user');
-                input.value = "";
-
-                const lang = this.state.user.lang;
-                const query = rawText.toLowerCase();
-                let match = null;
-
-                for (let key in this.registry[lang].categories) {
-                    if(this.registry[lang].categories[key].trigger.some(t => query.includes(t))) {
-                        match = this.registry[lang].categories[key].content;
-                        break;
+                    intro: "Bienvenue à l'agence Sidi Kacem. Pour mieux vous servir, veuillez entrer vos informations :",
+                    q_status: "Enchanté M. {name}. Êtes-vous déjà client ou un nouveau client ?",
+                    btn_existing: "Je suis déjà client",
+                    btn_new: "Nouveau client",
+                    existing_msg: "Ravi de vous revoir ! 🌟 Rappelez-vous de votre remise de 10% après 2 ans. Comment puis-je vous aider ?",
+                    new_msg: "Bienvenue parmi nous ! 🤝 Découvrez nos offres Auto, Construction et Santé. Que souhaitez-vous savoir ?",
+                    services: {
+                        auto: `🚗 **Assurance Auto:** Triporteurs, Motos et Voitures.
+                               <div class="info-box">🎁 **Fidélité:** -10% après 2 ans (annulée en cas de sinistre responsable).</div>`,
+                        sinistre: `⚠️ **Procédure Sinistre:** Si responsabilité < 50% :
+                                   <div class="info-box">1. Constat + Photos + Devis.<br>2. Expertise technique.<br>3. Remboursement sur facture.</div>`,
+                        health: `🏥 **Santé:** Gestion des dossiers CNOPS & AMC et suivi des adhésions.`,
+                        contact: `📍 **Adresse:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.<br>📠 Fax: 0537595910`
                     }
                 }
+            },
 
+            init() {
+                this.say(this.content.ar.intro, 'bot');
+                this.renderAuth();
+            },
+
+            renderAuth() {
+                const stream = document.getElementById('chat-stream');
+                const card = document.createElement('div');
+                card.className = "action-card";
+                card.innerHTML = `
+                    <input type="text" id="reg-n" class="sys-input" placeholder="الاسم الكامل / Nom Complet">
+                    <input type="tel" id="reg-p" class="sys-input" placeholder="رقم الهاتف / Téléphone">
+                    <select id="reg-l" class="sys-input">
+                        <option value="ar">العربية (الدارجة)</option>
+                        <option value="fr">Français</option>
+                    </select>
+                    <button class="status-btn" style="background:var(--atlanta-blue); color:white;" onclick="App.handleAuth()">متابعة / Continuer</button>
+                `;
+                stream.appendChild(card);
+                this.scroll();
+            },
+
+            handleAuth() {
+                const n = document.getElementById('reg-n').value;
+                const p = document.getElementById('reg-p').value;
+                const l = document.getElementById('reg-l').value;
+
+                if(n.length < 3 || p.length < 10) return alert("Error Data!");
+
+                this.state.user = { name: n, phone: p };
+                this.state.lang = l;
+                
+                // Clear and Say
+                document.querySelector('.action-card').style.display = 'none';
+                this.say(`${n} | ${p}`, 'user');
+                
+                setTimeout(() => this.askStatus(), 600);
+            },
+
+            askStatus() {
+                const l = this.state.lang;
+                const name = this.state.user.name;
+                this.say(this.content[l].q_status.replace('{name}', name), 'bot');
+
+                const stream = document.getElementById('chat-stream');
+                const div = document.createElement('div');
+                div.className = "flex flex-col gap-2 w-full mt-2";
+                div.innerHTML = `
+                    <div class="status-btn" onclick="App.setStatus('existing')">${this.content[l].btn_existing}</div>
+                    <div class="status-btn" onclick="App.setStatus('new')">${this.content[l].btn_new}</div>
+                `;
+                stream.appendChild(div);
+                this.scroll();
+            },
+
+            setStatus(type) {
+                this.state.type = type;
+                const l = this.state.lang;
+                
+                // Remove buttons
+                event.target.parentElement.style.display = 'none';
+                
+                const response = type === 'existing' ? this.content[l].existing_msg : this.content[l].new_msg;
+                this.say(type === 'existing' ? this.content[l].btn_existing : this.content[l].btn_new, 'user');
+                
                 setTimeout(() => {
-                    this.say(match || this.registry[lang].fallback, 'bot');
-                }, 700);
+                    this.say(response, 'bot');
+                    document.getElementById('footer-ui').style.display = 'block';
+                    // EmailJS notify
+                    emailjs.init("bqWg9HMcoZY_pllTx");
+                    emailjs.send("service_3elb747", "template_lbf8ayd", { 
+                        from_name: this.state.user.name, 
+                        type: type, 
+                        phone: this.state.user.phone 
+                    });
+                }, 600);
+            },
+
+            handleChat() {
+                const input = document.getElementById('user-msg');
+                const txt = input.value.trim().toLowerCase();
+                if(!txt) return;
+
+                this.say(txt, 'user');
+                input.value = "";
+
+                const l = this.state.lang;
+                let res = l === 'ar' ? "لم أفهم، هل تقصد السيارات أم الحوادث؟" : "Pardon ?";
+
+                if(txt.includes('سيار') || txt.includes('موطور') || txt.includes('auto')) res = this.content[l].services.auto;
+                else if(txt.includes('حادث') || txt.includes('كسيدة') || txt.includes('sinistre')) res = this.content[l].services.sinistre;
+                else if(txt.includes('صحة') || txt.includes('cnops') || txt.includes('amc')) res = this.content[l].services.health;
+                else if(txt.includes('فين') || txt.includes('عنوان') || txt.includes('adresse')) res = this.content[l].services.contact;
+
+                setTimeout(() => this.say(res, 'bot'), 600);
             },
 
             say(txt, side) {
-                const viewport = document.getElementById('chat-engine');
-                const div = document.createElement('div');
-                div.className = `bubble bubble-${side}`;
-                div.innerHTML = txt.replace(/\n/g, '<br>');
-                viewport.appendChild(div);
-                viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+                const s = document.getElementById('chat-stream');
+                const d = document.createElement('div');
+                d.className = `bubble bubble-${side}`;
+                d.innerHTML = txt.replace(/\n/g, '<br>');
+                s.appendChild(d);
+                this.scroll();
+            },
+
+            scroll() {
+                const s = document.getElementById('chat-stream');
+                s.scrollTop = s.scrollHeight;
             }
         };
 
-        // Real-time Clock Logic
-        setInterval(() => {
-            const d = new Date();
-            document.getElementById('clock').innerText = d.toTimeString().split(' ')[0];
-        }, 1000);
-
-        // Enter Key Listener
-        document.getElementById('logic-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') Engine.process(); });
+        window.onload = () => App.init();
     </script>
 </body>
 </html>
