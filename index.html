@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad | Sidi Kacem Advanced Hub</title>
+    <title>AtlantaSanad | Sidi Kacem Advanced Hub v7</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -13,245 +13,204 @@
     <style>
         :root {
             --atlanta-blue: #0054A6;
-            --atlanta-dark: #003366;
-            --bg-light: #f8fafc;
-            --success: #22c55e;
+            --atlanta-gold: #FFD700;
+            --bg-light: #f1f5f9;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-
-        body { background: #eef2f6; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { background: #1e293b; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
         .app-container {
-            width: 100%; max-width: 500px; height: 95vh;
-            background: white; border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 84, 166, 0.2);
-            display: flex; flex-direction: column; position: relative;
+            width: 100%; max-width: 480px; height: 92vh;
+            background: white; border-radius: 25px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex; flex-direction: column; position: relative; overflow: hidden;
         }
 
-        /* Branding Header */
         header {
-            background: var(--atlanta-blue); padding: 20px; color: white;
-            display: flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, var(--atlanta-blue), #003366);
+            padding: 20px; color: white; border-bottom: 3px solid var(--atlanta-gold);
         }
 
-        .logo-wrap { width: 55px; height: 55px; background: white; border-radius: 12px; padding: 6px; }
-
-        /* Chat Stream */
         #chat-stream {
-            flex: 1; padding: 20px; overflow-y: auto; background: var(--bg-light);
-            display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth;
+            flex: 1; padding: 15px; overflow-y: auto; background: var(--bg-light);
+            display: flex; flex-direction: column; gap: 12px;
         }
 
-        /* Advanced Bubbles */
+        /* Bubbles */
         .bubble {
-            max-width: 85%; padding: 14px 18px; border-radius: 20px; font-size: 14px; line-height: 1.6;
-            animation: fadeIn 0.4s ease-out; position: relative;
+            max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px;
+            line-height: 1.5; position: relative; animation: slideUp 0.3s ease;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bubble-bot { background: white; color: #1e293b; align-self: flex-start; border-bottom-right-radius: 4px; border: 1px solid #e2e8f0; }
-        .bubble-user { background: var(--atlanta-blue); color: white; align-self: flex-end; border-bottom-left-radius: 4px; }
+        .bubble-bot { background: white; color: #334155; align-self: flex-start; border-bottom-right-radius: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .bubble-user { background: var(--atlanta-blue); color: white; align-self: flex-end; border-bottom-left-radius: 2px; }
 
-        /* Interaction Cards */
-        .action-card { background: white; border: 2px solid #e2e8f0; padding: 20px; border-radius: 20px; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-        .sys-input { width: 100%; padding: 12px; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 10px; margin-bottom: 10px; outline: none; transition: 0.3s; font-size: 13px; }
-        .sys-input:focus { border-color: var(--atlanta-blue); background: white; }
-
-        /* Status Buttons */
-        .status-btn {
-            width: 100%; padding: 12px; margin-top: 8px; border-radius: 10px;
-            border: 2px solid var(--atlanta-blue); color: var(--atlanta-blue);
-            font-weight: 700; cursor: pointer; transition: 0.3s; text-align: center;
+        /* Quick Actions Grid */
+        .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .action-btn {
+            background: white; border: 1px solid #cbd5e1; padding: 10px; border-radius: 12px;
+            text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-        .status-btn:hover { background: var(--atlanta-blue); color: white; }
+        .action-btn:hover { border-color: var(--atlanta-blue); color: var(--atlanta-blue); background: #f8fafc; }
 
-        /* Footer Interaction */
-        .footer-control { padding: 15px; background: white; border-top: 1px solid #f1f5f9; display: none; }
-        .input-group { display: flex; background: #f1f5f9; border-radius: 15px; padding: 5px; border: 1px solid #e2e8f0; }
-        .input-group input { flex: 1; background: transparent; border: none; padding: 10px; outline: none; font-size: 14px; }
-        .send-trigger { width: 40px; height: 40px; background: var(--atlanta-blue); color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        /* WhatsApp Floating Button */
+        .wa-float {
+            position: absolute; bottom: 85px; left: 20px;
+            background: #25D366; color: white; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; z-index: 100;
+        }
 
-        .info-box { border-right: 4px solid var(--atlanta-blue); background: #f0f7ff; padding: 10px; border-radius: 8px; font-size: 13px; margin: 5px 0; }
+        .footer-control { padding: 15px; background: white; border-top: 1px solid #e2e8f0; display: none; }
+        .input-group { display: flex; background: #f8fafc; border-radius: 25px; padding: 5px 15px; border: 1px solid #cbd5e1; }
+        .input-group input { flex: 1; background: transparent; border: none; padding: 10px; outline: none; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <header>
-            <div class="logo-wrap">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" alt="AtlantaSanad">
-            </div>
-            <div>
-                <h1 class="text-sm font-black uppercase">أطلنطا سند | سيدي قاسم</h1>
-                <div class="flex items-center gap-1">
-                    <span class="w-2 h-2 bg-green-400 rounded-full"></span>
-                    <p class="text-[9px] font-bold opacity-80 uppercase tracking-widest">Digital Assistant v6.0</p>
+        <!-- WhatsApp Shortcut -->
+        <a href="https://wa.me/212600000000" target="_blank" class="wa-float">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+
+        <header class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-white p-1 rounded-lg w-12 h-12 flex items-center justify-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-full">
+                </div>
+                <div>
+                    <h1 class="text-sm font-black">أطلنطا سند | سيدي قاسم</h1>
+                    <p class="text-[10px] opacity-90">الوكالة الرقمية الذكية v7.0</p>
                 </div>
             </div>
+            <i class="fas fa-ellipsis-v opacity-70"></i>
         </header>
 
         <div id="chat-stream">
-            </div>
+            <!-- Messages appear here -->
+        </div>
 
         <footer class="footer-control" id="footer-ui">
             <div class="input-group">
-                <input type="text" id="user-msg" placeholder="اسأل عن التأمين أو الحوادث...">
-                <div class="send-trigger" onclick="App.handleChat()">
+                <input type="text" id="user-msg" placeholder="اكتب استفسارك هنا...">
+                <button onclick="App.handleChat()" class="text-blue-600 px-2">
                     <i class="fas fa-paper-plane"></i>
-                </div>
+                </button>
             </div>
         </footer>
     </div>
 
     <script>
         const App = {
-            state: { user: null, lang: 'ar', type: null },
-
-            content: {
+            state: { user: null, lang: 'ar' },
+            
+            data: {
                 ar: {
-                    intro: "مرحباً بك في وكالة سيدي قاسم. لكي نخدمك بشكل أفضل، المرجو إدخال بياناتك:",
-                    q_status: "تشرفنا سي {name}. هل أنت زبون حالي للشركة أم زبون جديد؟",
-                    btn_existing: "أنا زبون الوكالة",
-                    btn_new: "زبون جديد (أرغب في الانخراط)",
-                    existing_msg: "مرحباً بوفائك! 🌟 تذكر أنك تستفيد من خصم 10% بعد سنتين. كيف يمكنني مساعدتك اليوم؟",
-                    new_msg: "مرحباً بك في عائلتنا! 🤝 يسعدنا انضمامك. نوفر لك أفضل العروض على السيارات، البناء والصحة. ماذا تود أن تعرف؟",
-                    services: {
-                        auto: `🚗 **تأمين المركبات:** نؤمن السيارات، الدراجات، والـ Triporteurs.
-                               <div class="info-box">🎁 **نظام الوفاء:** خصم 10% بعد سنتين من الانخراط، ويُعرف أنه يُلغى في حال وقوع حادث بمسؤوليتك.</div>`,
-                        sinistre: `⚠️ **مسطرة الحوادث:** إذا لم تكن مسؤولاً (أقل من 50%):
-                                   <div class="info-box">1. أحضر Constat + صور + Devis.<br>2. نرسلك للخبير.<br>3. بعد الإصلاح، أحضر الفاتورة للتعويض.</div>`,
-                        health: `🏥 **الصحة:** تدبير ملفات CNOPS و AMC وتتبع الانخراطات بكل دقة.`,
-                        contact: `📍 **سيدي قاسم:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc.<br>📠 الفاكس: 0537595910`
-                    }
-                },
-                fr: {
-                    intro: "Bienvenue à l'agence Sidi Kacem. Pour mieux vous servir, veuillez entrer vos informations :",
-                    q_status: "Enchanté M. {name}. Êtes-vous déjà client ou un nouveau client ?",
-                    btn_existing: "Je suis déjà client",
-                    btn_new: "Nouveau client",
-                    existing_msg: "Ravi de vous revoir ! 🌟 Rappelez-vous de votre remise de 10% après 2 ans. Comment puis-je vous aider ?",
-                    new_msg: "Bienvenue parmi nous ! 🤝 Découvrez nos offres Auto, Construction et Santé. Que souhaitez-vous savoir ?",
-                    services: {
-                        auto: `🚗 **Assurance Auto:** Triporteurs, Motos et Voitures.
-                               <div class="info-box">🎁 **Fidélité:** -10% après 2 ans (annulée en cas de sinistre responsable).</div>`,
-                        sinistre: `⚠️ **Procédure Sinistre:** Si responsabilité < 50% :
-                                   <div class="info-box">1. Constat + Photos + Devis.<br>2. Expertise technique.<br>3. Remboursement sur facture.</div>`,
-                        health: `🏥 **Santé:** Gestion des dossiers CNOPS & AMC et suivi des adhésions.`,
-                        contact: `📍 **Adresse:** Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.<br>📠 Fax: 0537595910`
+                    welcome: "مرحباً بك في وكالة سيدي قاسم الرقمية. نسهل عليك خدمات التأمين دون عناء التنقل.",
+                    ask_name: "قبل البدء، ممكن نتعرف على الاسم الكريم ورقم الهاتف؟",
+                    services_intro: "كيف يمكننا مساعدتك اليوم يا {name}؟ اختر أحد الأقسام التالية:",
+                    options: [
+                        { id: 'auto', text: '🚗 تأمين المركبات', icon: 'fa-car' },
+                        { id: 'sinistre', text: '⚠️ وضعية حادث', icon: 'fa-exclamation-triangle' },
+                        { id: 'health', text: '🏥 ملفات الصحة', icon: 'fa-file-medical' },
+                        { id: 'contact', text: '📍 موقع الوكالة', icon: 'fa-map-marker-alt' }
+                    ],
+                    responses: {
+                        auto: "نؤمن جميع أنواع المركبات (سيارات، دراجات، شاحنات). <b>تذكير:</b> تستفيد من خصم 10% عند تجديد سنتين بدون حوادث! 🎁",
+                        sinistre: "في حالة حادث (Constat):<br>1️⃣ قم بتصوير الحادث فوراً.<br>2️⃣ أحضر المحضر (Constat) للوكالة.<br>3️⃣ سنقوم بتعيين خبير في أقل من 24 ساعة.",
+                        health: "ندبر ملفات CNOPS و AMC. يمكنك تتبع تعويضاتك مباشرة عبر وضع رقم الانخراط هنا أو زيارتنا.",
+                        contact: "📍 عنواننا: سيدي قاسم، الحي الجديد، زنقة 5، عمارة 80.<br>📞 هاتف: 0537595910"
                     }
                 }
             },
 
             init() {
-                this.say(this.content.ar.intro, 'bot');
-                this.renderAuth();
+                this.say(this.data.ar.welcome, 'bot');
+                setTimeout(() => this.renderAuth(), 1000);
             },
 
             renderAuth() {
                 const stream = document.getElementById('chat-stream');
-                const card = document.createElement('div');
-                card.className = "action-card";
-                card.innerHTML = `
-                    <input type="text" id="reg-n" class="sys-input" placeholder="الاسم الكامل / Nom Complet">
-                    <input type="tel" id="reg-p" class="sys-input" placeholder="رقم الهاتف / Téléphone">
-                    <select id="reg-l" class="sys-input">
-                        <option value="ar">العربية (الدارجة)</option>
-                        <option value="fr">Français</option>
-                    </select>
-                    <button class="status-btn" style="background:var(--atlanta-blue); color:white;" onclick="App.handleAuth()">متابعة / Continuer</button>
+                const div = document.createElement('div');
+                div.className = "action-card bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mt-2";
+                div.innerHTML = `
+                    <p class="text-xs font-bold mb-3 text-slate-500 text-center">التسجيل السريع</p>
+                    <input type="text" id="reg-n" class="w-full p-3 bg-slate-100 rounded-xl mb-2 text-sm outline-none" placeholder="الاسم الكامل">
+                    <input type="tel" id="reg-p" class="w-full p-3 bg-slate-100 rounded-xl mb-3 text-sm outline-none" placeholder="رقم الهاتف">
+                    <button onclick="App.handleAuth()" class="w-full bg-blue-600 text-white p-3 rounded-xl font-bold text-sm">دخول</button>
                 `;
-                stream.appendChild(card);
+                stream.appendChild(div);
                 this.scroll();
             },
 
             handleAuth() {
                 const n = document.getElementById('reg-n').value;
                 const p = document.getElementById('reg-p').value;
-                const l = document.getElementById('reg-l').value;
-
-                if(n.length < 3 || p.length < 10) return alert("Error Data!");
+                if(n.length < 3 || p.length < 10) return alert("المرجو إدخال بيانات صحيحة");
 
                 this.state.user = { name: n, phone: p };
-                this.state.lang = l;
-                
-                // Clear and Say
                 document.querySelector('.action-card').style.display = 'none';
-                this.say(`${n} | ${p}`, 'user');
+                this.say(`مرحباً، أنا ${n}`, 'user');
                 
-                setTimeout(() => this.askStatus(), 600);
+                setTimeout(() => this.showMenu(), 800);
+                
+                // Notify via EmailJS (Keep your existing credentials)
+                emailjs.init("bqWg9HMcoZY_pllTx");
+                emailjs.send("service_3elb747", "template_lbf8ayd", { from_name: n, phone: p });
             },
 
-            askStatus() {
-                const l = this.state.lang;
-                const name = this.state.user.name;
-                this.say(this.content[l].q_status.replace('{name}', name), 'bot');
-
+            showMenu() {
+                this.say(this.data.ar.services_intro.replace('{name}', this.state.user.name), 'bot');
                 const stream = document.getElementById('chat-stream');
-                const div = document.createElement('div');
-                div.className = "flex flex-col gap-2 w-full mt-2";
-                div.innerHTML = `
-                    <div class="status-btn" onclick="App.setStatus('existing')">${this.content[l].btn_existing}</div>
-                    <div class="status-btn" onclick="App.setStatus('new')">${this.content[l].btn_new}</div>
-                `;
-                stream.appendChild(div);
+                const grid = document.createElement('div');
+                grid.className = "quick-grid";
+                
+                this.data.ar.options.forEach(opt => {
+                    grid.innerHTML += `<div class="action-btn" onclick="App.handleChoice('${opt.id}')">
+                        <i class="fas ${opt.icon} block text-blue-600 text-lg mb-1"></i> ${opt.text}
+                    </div>`;
+                });
+                
+                stream.appendChild(grid);
+                document.getElementById('footer-ui').style.display = 'block';
                 this.scroll();
             },
 
-            setStatus(type) {
-                this.state.type = type;
-                const l = this.state.lang;
-                
-                // Remove buttons
-                event.target.parentElement.style.display = 'none';
-                
-                const response = type === 'existing' ? this.content[l].existing_msg : this.content[l].new_msg;
-                this.say(type === 'existing' ? this.content[l].btn_existing : this.content[l].btn_new, 'user');
-                
-                setTimeout(() => {
-                    this.say(response, 'bot');
-                    document.getElementById('footer-ui').style.display = 'block';
-                    // EmailJS notify
-                    emailjs.init("bqWg9HMcoZY_pllTx");
-                    emailjs.send("service_3elb747", "template_lbf8ayd", { 
-                        from_name: this.state.user.name, 
-                        type: type, 
-                        phone: this.state.user.phone 
-                    });
-                }, 600);
+            handleChoice(id) {
+                this.say(this.data.ar.responses[id], 'bot');
             },
 
             handleChat() {
                 const input = document.getElementById('user-msg');
-                const txt = input.value.trim().toLowerCase();
-                if(!txt) return;
-
-                this.say(txt, 'user');
+                const val = input.value.trim();
+                if(!val) return;
+                
+                this.say(val, 'user');
                 input.value = "";
-
-                const l = this.state.lang;
-                let res = l === 'ar' ? "لم أفهم، هل تقصد السيارات أم الحوادث؟" : "Pardon ?";
-
-                if(txt.includes('سيار') || txt.includes('موطور') || txt.includes('auto')) res = this.content[l].services.auto;
-                else if(txt.includes('حادث') || txt.includes('كسيدة') || txt.includes('sinistre')) res = this.content[l].services.sinistre;
-                else if(txt.includes('صحة') || txt.includes('cnops') || txt.includes('amc')) res = this.content[l].services.health;
-                else if(txt.includes('فين') || txt.includes('عنوان') || txt.includes('adresse')) res = this.content[l].services.contact;
-
-                setTimeout(() => this.say(res, 'bot'), 600);
+                
+                // Simple AI Logic
+                setTimeout(() => {
+                    if(val.includes("تأمين") || val.includes("ثمن")) this.handleChoice('auto');
+                    else if(val.includes("حادث") || val.includes("كسيدة")) this.handleChoice('sinistre');
+                    else this.say("شكراً لتواصلك. يمكنك أيضاً الضغط على أيقونة الواتساب للتحدث مباشرة مع وكيلنا.", 'bot');
+                }, 600);
             },
 
             say(txt, side) {
                 const s = document.getElementById('chat-stream');
                 const d = document.createElement('div');
                 d.className = `bubble bubble-${side}`;
-                d.innerHTML = txt.replace(/\n/g, '<br>');
+                d.innerHTML = txt;
                 s.appendChild(d);
                 this.scroll();
             },
 
             scroll() {
                 const s = document.getElementById('chat-stream');
-                s.scrollTop = s.scrollHeight;
+                s.scrollTo({ top: s.scrollHeight, behavior: 'smooth' });
             }
         };
 
