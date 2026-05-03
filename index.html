@@ -3,449 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad | Global Enterprise Hub V8</title>
+    <title>AtlantaSanad | Smart Neural Hub V9</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
-        /* --- GLOBAL VARIABLES & 3D SYSTEM --- */
-        :root {
-            --brand-blue: #0054A6;
-            --brand-cyan: #00d2ff;
-            --brand-gold: #FFD700;
-            --bg-canvas: #0f172a;
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.5);
-        }
-
+        :root { --main: #0054A6; --gold: #FFD700; --bg: #0f172a; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        body { background: var(--bg); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
-        body {
-            background: var(--bg-canvas);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 84, 166, 0.4), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(0, 210, 255, 0.3), transparent 50%);
-            height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden;
+        /* 3D Glassmorphism Container */
+        .app-window {
+            width: 100%; max-width: 450px; height: 92vh; background: rgba(255, 255, 255, 0.98);
+            border-radius: 35px; box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            display: flex; flex-direction: column; position: relative; border: 4px solid #fff;
         }
 
-        /* --- 3D SMART DEVICE CONTAINER --- */
-        .app-frame {
-            width: 100%; max-width: 480px; height: 95vh;
-            background: var(--glass-bg);
-            border-radius: 40px;
-            box-shadow: 
-                0 30px 60px rgba(0,0,0,0.5), 
-                inset 0 0 20px rgba(255,255,255,0.8),
-                inset 0 5px 5px rgba(255,255,255,1);
-            border: 2px solid var(--glass-border);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-            backdrop-filter: blur(20px);
+        header {
+            background: linear-gradient(135deg, var(--main), #003366); padding: 20px; color: white;
+            border-bottom: 4px solid var(--gold); border-radius: 30px 30px 0 0;
         }
 
-        /* --- 3D HEADER --- */
-        .smart-header {
-            background: linear-gradient(135deg, var(--brand-blue) 0%, #002244 100%);
-            padding: 20px 25px; color: white;
-            border-bottom: 4px solid var(--brand-gold);
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 10px 20px rgba(0, 84, 166, 0.2);
-            position: relative; z-index: 10;
-        }
-
-        .logo-3d {
-            width: 55px; height: 55px; background: white; border-radius: 16px; padding: 5px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2), inset 0 -3px 5px rgba(0,0,0,0.1);
-            transform: translateZ(0); transition: 0.3s;
-        }
-        .logo-3d:hover { transform: translateY(-2px) scale(1.05); }
-
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
-            background: rgba(0,0,0,0.3); border-radius: 20px; font-size: 11px; font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-        }
-
-        /* --- CHAT ENGINE --- */
-        #chat-engine {
-            flex: 1; padding: 25px 20px; overflow-y: auto; background: #f8fafc;
-            display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth;
-        }
-        #chat-engine::-webkit-scrollbar { width: 6px; }
-        #chat-engine::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-
-        /* Bubble Animations & 3D */
-        .bubble {
-            max-width: 85%; padding: 15px 18px; border-radius: 22px; font-size: 14.5px; line-height: 1.6;
-            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            position: relative;
-        }
-        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.8) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-
-        .bubble-bot {
-            background: white; color: #1e293b; align-self: flex-start;
-            border-bottom-right-radius: 4px; border: 1px solid #e2e8f0;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.04);
-        }
-        .bubble-user {
-            background: linear-gradient(135deg, var(--brand-blue), #0077ff); color: white;
-            align-self: flex-end; border-bottom-left-radius: 4px;
-            box-shadow: 0 8px 15px rgba(0, 84, 166, 0.25);
-        }
-
-        /* Stickers */
-        .sticker { font-size: 24px; margin-bottom: 5px; display: block; animation: float 3s ease-in-out infinite; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-        /* --- IN-CHAT 3D CARDS & FORMS --- */
-        .interactive-card {
-            background: white; border: 2px solid #e2e8f0; padding: 20px;
-            border-radius: 24px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            animation: bounceIn 0.5s ease;
-        }
+        #chat-engine { flex: 1; padding: 20px; overflow-y: auto; background: #f1f5f9; display: flex; flex-direction: column; gap: 15px; }
         
-        .sys-input {
-            width: 100%; padding: 14px; background: #f1f5f9; border: 2px solid transparent;
-            border-radius: 14px; margin-bottom: 12px; font-size: 14px; outline: none; transition: 0.3s;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        .bubble { 
+            max-width: 85%; padding: 15px; border-radius: 20px; font-size: 14px; line-height: 1.6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .sys-input:focus { border-color: var(--brand-blue); background: white; box-shadow: 0 0 0 4px rgba(0, 84, 166, 0.1); }
+        @keyframes pop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
+        .bot { background: white; color: #1e293b; align-self: flex-start; border-bottom-right-radius: 2px; }
+        .user { background: var(--main); color: white; align-self: flex-end; border-bottom-left-radius: 2px; }
+
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: 5px; }
+        
+        /* 3D Action Cards */
+        .card-3d {
+            background: white; border: 2px solid #e2e8f0; padding: 20px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 10px;
+        }
+        .sys-input { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #f1f5f9; margin-bottom: 10px; outline: none; transition: 0.3s; }
+        .sys-input:focus { border-color: var(--main); }
         .btn-3d {
-            background: linear-gradient(to bottom, var(--brand-blue), #004080); color: white;
-            width: 100%; padding: 15px; border-radius: 14px; font-weight: 900;
-            border: none; cursor: pointer; transition: 0.2s;
-            box-shadow: 0 6px 0 #002244, 0 10px 15px rgba(0,0,0,0.2);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3); margin-top: 5px;
+            width: 100%; padding: 14px; border-radius: 12px; background: var(--main); color: white;
+            font-weight: 900; border: none; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #003366;
         }
-        .btn-3d:active { transform: translateY(6px); box-shadow: 0 0 0 #002244, 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-3d:active { transform: translateY(4px); box-shadow: none; }
 
-        /* Menu Options */
-        .option-btn {
-            background: white; border: 2px solid #e2e8f0; padding: 12px; border-radius: 16px;
-            text-align: right; font-weight: bold; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 10px; color: #334155; margin-bottom: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-        .option-btn:hover { border-color: var(--brand-blue); transform: translateX(-5px); box-shadow: 5px 5px 15px rgba(0, 84, 166, 0.1); color: var(--brand-blue); }
-
-        /* --- FOOTER INPUT --- */
-        .chat-footer {
-            padding: 20px; background: white; border-top: 1px solid #e2e8f0;
-            display: none; box-shadow: 0 -10px 20px rgba(0,0,0,0.02); z-index: 10;
-        }
-        .input-group {
-            display: flex; background: #f1f5f9; border-radius: 20px; padding: 6px;
-            border: 1px solid #cbd5e1; box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
-        }
-        .input-group input { flex: 1; background: transparent; border: none; padding: 10px 15px; outline: none; font-size: 15px; }
-        .send-btn {
-            width: 45px; height: 45px; background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan));
-            color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0, 210, 255, 0.3);
-        }
-        .send-btn:hover { transform: scale(1.1) rotate(-10deg); }
-        
-        .typing-indicator { display: none; padding: 15px; font-size: 12px; color: #94a3b8; font-weight: bold; }
-        .typing-indicator span { animation: blink 1.4s infinite both; width: 5px; height: 5px; background: #94a3b8; display: inline-block; border-radius: 50%; margin: 0 1px; }
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; } .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes blink { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+        .footer-ui { padding: 15px; background: white; border-top: 1px solid #e2e8f0; display: none; }
+        .input-box { display: flex; background: #f1f5f9; border-radius: 50px; padding: 5px 15px; border: 1px solid #cbd5e1; }
+        .input-box input { flex: 1; background: transparent; border: none; padding: 10px; outline: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-frame">
-        <header class="smart-header">
-            <div class="flex items-center gap-4">
-                <div class="logo-3d flex items-center justify-center">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" alt="Logo" class="w-full h-full object-contain">
-                </div>
+    <div class="app-window">
+        <header class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-12 h-12 bg-white p-1 rounded-xl shadow-lg">
                 <div>
-                    <h1 class="text-[15px] font-black tracking-wide text-white drop-shadow-md">أطلنطا سند | سيدي قاسم</h1>
-                    <div id="agency-status" class="status-badge mt-1">
-                        </div>
+                    <h1 class="text-sm font-black">أطلنطا سند | سيدي قاسم</h1>
+                    <div id="live-status" class="text-[10px] flex items-center font-bold"></div>
                 </div>
             </div>
+            <div class="text-xs opacity-70">V9 Smart AI</div>
         </header>
 
-        <div id="chat-engine">
-            </div>
-        
-        <div id="typing" class="typing-indicator">جاري الكتابة <span></span><span></span><span></span></div>
+        <div id="chat-engine"></div>
 
-        <footer class="chat-footer" id="main-footer">
-            <div class="input-group">
-                <input type="text" id="user-msg" placeholder="اكتب سؤالك هنا... (تأمين، حوادث، صحة)">
-                <div class="send-btn" onclick="Core.processText()">
-                    <i class="fas fa-paper-plane"></i>
-                </div>
+        <footer class="footer-ui" id="footer-control">
+            <div class="input-box">
+                <input type="text" id="user-input" placeholder="اكتب سؤالك هنا / Écrivez ici...">
+                <button onclick="Core.processMsg()" class="text-blue-600 font-bold"><i class="fas fa-paper-plane"></i></button>
             </div>
         </footer>
     </div>
 
     <script>
-        /**
-         * ATLANTA SANAD - V8 GLOBAL ENTERPRISE ENGINE
-         * Advanced NLP, Dynamic Timing, and Marketing Logic
-         */
         const Core = {
-            state: { lang: null, user: null, customerType: null },
+            state: { user: null, type: null },
             
-            // Extensive Marketing & Support Database
             db: {
                 ar: {
-                    marketing_welcomes: {
-                        new: "<span class='sticker'>🎉</span> أهلاً بك في عائلة أطلنطا سند! كزبون جديد، أنت الآن في المكان الصح لحماية سيارتك وممتلكاتك. عندنا عروض تنافسية جداً وسرعة خيالية في التعويض. شنو بغيتي نأمنو ليك اليوم؟",
-                        existing: "<span class='sticker'>💎</span> أهلاً بك مجدداً يا بطل! زبنائنا الأوفياء هما راس مالنا. ما تنساش، بعد عامين ديال الوفاء راك كتربح 10% تخفيض (إلا يلا كنتي مسؤول فشي حادثة). كيفاش نقدر نخدمك اليوم؟"
-                    },
-                    menus: [
-                        { id: 'auto', title: '🚗 تأمين السيارات والمحركات', desc: 'أفضل العروض للسياقة براحة بال' },
-                        { id: 'accident', title: '⚠️ عندي حادث (مسطرة التعويض)', desc: 'خطوات سريعة باش تاخد فلوسك' },
-                        { id: 'health', title: '🏥 الصحة و CNOPS', desc: 'تتبع ملفاتك وتغطيتك الصحية' },
-                        { id: 'home', title: '🏠 تأمين المنازل والبناء', desc: 'حماية شاملة لمشروعك وعقارك' }
-                    ],
-                    kb: {
-                        auto: {
-                            keys: ['سيارة', 'طوموبيل', 'دراجة', 'موطور', 'ثمن', 'تامين', 'تخفيض', 'auto', 'voiture', 'triporteur'],
-                            reply: "<span class='sticker'>🏎️</span> <b>تأمين المركبات ديالنا مافيهش المزاح!</b><br>كنأمنو السيارات، الدراجات النارية، وحتى Triporteurs.<br>🔥 <b>الميزة الحصرية:</b> يلا بقيتي معانا عامين بلا حوادث (مسؤول فيها)، كنعطيوك <b>-10% تخفيض</b> فالتجديد كهدية من الوكالة! بغيتي Devis؟ زورنا فالوكالة وغنوجدو ليك أحسن ثمن."
-                        },
-                        accident: {
-                            keys: ['حادث', 'كسيدة', 'خبير', 'كونسطا', 'تعويض', 'فلوس', 'devis', 'sinistre', 'accident'],
-                            reply: "<span class='sticker'>🛡️</span> <b>ماتقلقش، حنا معاك! (مسطرة الحوادث):</b><br>يلا مادرتيش الفوط (مسؤوليتك أقل من 50%):<br>1️⃣ جيب لينا Constat، التصاور، و Devis ديال الطولوري.<br>2️⃣ حنا كنتكلفو بالـ Déclaration ونصيفطوك للخبير ديالنا.<br>3️⃣ الخبير كيڤاليدي الثمن، صلح طوموبيلتك، جيب لينا لاڤاكتور (Facture)، وغنردّو ليك فلوسك فأسريع وقت. احترافية تامة! ⚡"
-                        },
-                        health: {
-                            keys: ['صحة', 'مرض', 'طبيب', 'دواء', 'cnops', 'amc', 'كنوبس', 'تعاضدية', 'sante', 'mutuelle'],
-                            reply: "<span class='sticker'>🩺</span> <b>صحتك أمانة عندنا:</b><br>كنتكلفو بـ Gestion des adhésions من الألف للياء.<br>جيب لينا ملفاتك ديال <b>CNOPS و AMC</b> وحنا غندخلوهم فالسيسطيم ونتبعوهم ليك باش تعوض فريحتك بلا صدع الراس."
-                        },
-                        home: {
-                            keys: ['بناء', 'دار', 'سكن', 'ورش', 'بني', 'chantier', 'maison'],
-                            reply: "<span class='sticker'>🏗️</span> <b>تأمين البناء والمنازل:</b><br>سواء عندك ورش بناء (Tous Risques Chantier) أو بغيتي تأمن دارك من الحريق والسرقة، عندنا باقات كتغطي كل المخاطر المهنية والشخصية."
-                        },
-                        contact: {
-                            keys: ['فين', 'موقع', 'عنوان', 'رقم', 'هاتف', 'تواصل', 'فاكس', 'adresse', 'localisation'],
-                            reply: "<span class='sticker'>📍</span> <b>مرحبا بيك عندنا، القهوة خالصة!</b><br>🏢 العنوان: Nouveau Quartier, rue 5 imm. 80 n°3 rdc, Sidi Kacem.<br>📠 الفاكس/الهاتف: <b>0537595910</b><br>⏰ شوف حالة الوكالة الفوق باش تعرف واش حالين دابا!"
-                        }
-                    },
-                    fallback: "<span class='sticker'>🤔</span> الصراحة مافهمتش مزيان سؤالك. واش كتقصد تأمين الطوموبيلات، مسطرة الكسيدة، ولا بغيتي عنوان الوكالة؟"
+                    welcome: "مرحباً بك! أنا مساعدك الذكي لوكالة أطلنطا سند سيدي قاسم 🏛️. لتقديم خدمة ممتازة، من فضلك عرفنا بنفسك:",
+                    type_q: "تشرفنا سي {name}! واش أنت زبون قديم ديالنا ولا زبون جديد؟ 🤝",
+                    new_client: "أهلاً بك في عائلتنا! 🆕 كزبون جديد، غتستافد من أحسن العروض فالمغرب وسرعة خيالية فالحوادث.",
+                    old_client: "مرحباً بوفائك مجدداً! 💎 ما تنساش بلي سنتين ديال الوفاء كتعطيك 10% تخفيض فالتأمين.",
+                    auto: "🚗 <b>تأمين السيارات:</b> كنأمنو كلشي (سيارات، موطورات، تريبورتور). بعد عامين بلا حادثة (بمسؤوليتك) كتاخد 10% خصم!",
+                    sinistre: "⚠️ <b>عندك حادثة؟</b> جيب لينا الكونسطا والديڤي (Devis) وصور الأضرار، وحنا غنصيفطوك للخبير فالحين باش تبدا الإصلاح.",
+                    health: "🏥 <b>الملفات الصحية:</b> كندبرو ملفات CNOPS و AMC بكل احترافية، جيب لينا دواك وحنا نتبعو التعويض.",
+                    contact: "📍 <b>موقعنا:</b> سيدي قاسم، الحي الجديد، زنقة 5، عمارة 80. <br>📞 هاتف/فاكس: 0537595910",
+                    fallback: "🤖 مافهمتش سؤالك مزيان، واش كتقصد (تأمين، حادثة، عنوان، ملف صحي)؟"
+                },
+                fr: {
+                    welcome: "Bienvenue ! Je suis l'assistant intelligent de l'agence AtlantaSanad Sidi Kacem 🏛️. Veuillez vous identifier :",
+                    type_q: "Enchanté M. {name} ! Êtes-vous déjà client chez nous ou un nouveau client ? 🤝",
+                    new_client: "Bienvenue parmi nous ! 🆕 Profitez des meilleures offres au Maroc et d'une gestion rapide de vos dossiers.",
+                    old_client: "Ravi de vous revoir ! 💎 N'oubliez pas que 2 ans de fidélité vous offrent 10% de remise sur votre assurance.",
+                    auto: "🚗 <b>Assurance Auto:</b> Nous assurons tout (Voitures, Motos, Triporteurs). Après 2 ans sans sinistre responsable, vous avez -10% !",
+                    sinistre: "⚠️ <b>Sinistre ?</b> Apportez le constat, le devis et les photos. Nous déclenchons l'expertise immédiatement pour le remboursement.",
+                    health: "🏥 <b>Santé:</b> Nous gérons vos dossiers CNOPS et AMC avec suivi rigoureux de vos remboursements.",
+                    contact: "📍 <b>Adresse:</b> Sidi Kacem, Nouveau Quartier, Rue 5, Imm 80. <br>📞 Tél/Fax: 0537595910",
+                    fallback: "🤖 Je n'ai pas bien compris. Voulez-vous des infos sur (Assurance, Sinistre, Adresse, Santé) ?"
                 }
             },
 
-            // --- 1. SYSTEM INIT & TIME CHECK ---
             init() {
-                this.updateBusinessHours();
-                // Check business hours every minute
-                setInterval(() => this.updateBusinessHours(), 60000);
-                
-                setTimeout(() => this.renderLanguageCard(), 500);
+                this.checkTime();
+                this.say(this.db.ar.welcome, 'bot'); // Start with generic welcome
+                this.renderReg();
             },
 
-            updateBusinessHours() {
-                // Kenitra, Morocco Time (GMT+1 logic approx)
+            checkTime() {
                 const now = new Date();
-                const day = now.getDay(); // 0 = Sunday, 1 = Monday...
-                const hour = now.getHours();
-                const minutes = now.getMinutes();
-                const timeStr = hour + minutes/60;
-
-                let isOpen = false;
-                // Mon-Fri: 08:30 to 18:00 (18.0)
-                if (day >= 1 && day <= 5 && timeStr >= 8.5 && timeStr < 18.0) isOpen = true;
-                // Sat: 09:00 to 13:00 (13.0)
-                else if (day === 6 && timeStr >= 9.0 && timeStr < 13.0) isOpen = true;
-                // Sunday (0) is closed.
-
-                const badge = document.getElementById('agency-status');
-                if(isOpen) {
-                    badge.innerHTML = `<span class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_#4ade80]"></span> <span class="text-green-300">مفتوح الآن</span>`;
-                    badge.style.border = "1px solid rgba(74, 222, 128, 0.3)";
-                } else {
-                    badge.innerHTML = `<span class="w-2.5 h-2.5 bg-red-500 rounded-full shadow-[0_0_8px_#ef4444]"></span> <span class="text-red-300">مغلق حالياً</span>`;
-                    badge.style.border = "1px solid rgba(239, 68, 68, 0.3)";
-                }
+                const day = now.getDay();
+                const hr = now.getHours() + now.getMinutes()/60;
+                let open = (day >= 1 && day <= 5 && hr >= 8.5 && hr <= 18) || (day === 6 && hr >= 9 && hr <= 13);
+                const el = document.getElementById('live-status');
+                el.innerHTML = open ? `<span class="status-dot bg-green-500 animate-pulse"></span> مفتوح حالياً` : `<span class="status-dot bg-red-500"></span> مغلق الآن`;
+                el.classList.add(open ? 'text-green-500' : 'text-red-500');
             },
 
-            // --- 2. LANGUAGE SELECTION ---
-            renderLanguageCard() {
+            renderReg() {
                 const stream = document.getElementById('chat-engine');
-                stream.innerHTML += `
-                    <div class="interactive-card" id="lang-card">
-                        <h3 class="text-center font-black text-slate-800 mb-4 text-lg">🌍 اختر لغتك / Choisissez la langue</h3>
-                        <button class="btn-3d" onclick="Core.setLang('ar')">العربية (الدارجة) 🇲🇦</button>
-                        <button class="btn-3d mt-3 bg-gradient-to-r from-slate-600 to-slate-800 shadow-slate-900" style="background: linear-gradient(to bottom, #475569, #1e293b); box-shadow: 0 6px 0 #0f172a, 0 10px 15px rgba(0,0,0,0.2);" onclick="Core.setLang('ar')">Français (Bientôt) 🇫🇷</button>
-                    </div>
+                const card = document.createElement('div');
+                card.className = "card-3d";
+                card.innerHTML = `
+                    <input type="text" id="r-n" class="sys-input" placeholder="الاسم الكامل / Nom Complet">
+                    <input type="tel" id="r-p" class="sys-input" placeholder="رقم الهاتف / Téléphone">
+                    <button class="btn-3d" onclick="Core.doReg()">دخول / Entrer</button>
                 `;
-            },
-
-            setLang(lang) {
-                this.state.lang = lang; // Currently defaulting everything to AR for robust demo
-                document.getElementById('lang-card').style.display = 'none';
-                this.renderDataForm();
-            },
-
-            // --- 3. DATA COLLECTION FORM ---
-            renderDataForm() {
-                const stream = document.getElementById('chat-engine');
-                const div = document.createElement('div');
-                div.className = "interactive-card";
-                div.id = "data-card";
-                div.innerHTML = `
-                    <div class="text-center mb-4">
-                        <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2 text-xl shadow-inner"><i class="fas fa-id-card"></i></div>
-                        <h3 class="font-black text-slate-800">بيانات الاتصال</h3>
-                        <p class="text-xs text-slate-500 mt-1">باش نقدرو نتواصلو معاك بأحسن طريقة</p>
-                    </div>
-                    <input type="text" id="reg-name" class="sys-input" placeholder="الاسم الكامل">
-                    <input type="tel" id="reg-phone" class="sys-input" placeholder="رقم الهاتف (06...)">
-                    <button class="btn-3d" onclick="Core.saveData()">متابعة <i class="fas fa-arrow-left ml-1 text-sm"></i></button>
-                `;
-                stream.appendChild(div);
+                stream.appendChild(card);
                 this.scroll();
             },
 
-            saveData() {
-                const n = document.getElementById('reg-name').value.trim();
-                const p = document.getElementById('reg-phone').value.trim();
-                
-                if(n.length < 3 || p.length < 10) return alert("المرجو إدخال البيانات بشكل صحيح!");
-
+            doReg() {
+                const n = document.getElementById('r-n').value;
+                const p = document.getElementById('r-p').value;
+                if(n.length < 3 || p.length < 10) return;
                 this.state.user = { name: n, phone: p };
-                document.getElementById('data-card').style.display = 'none';
+                document.querySelector('.card-3d').style.display = 'none';
+                this.say(n, 'user');
+                setTimeout(() => this.askType(), 600);
                 
-                this.say(`اسمي ${n}، هاتفي ${p}`, 'user');
-                this.showTyping();
-                
-                setTimeout(() => {
-                    this.hideTyping();
-                    this.askCustomerType();
-                }, 1000);
+                emailjs.init("bqWg9HMcoZY_pllTx");
+                emailjs.send("service_3elb747", "template_lbf8ayd", { from_name: n, phone: p });
             },
 
-            // --- 4. CUSTOMER TYPE LOGIC ---
-            askCustomerType() {
+            askType() {
                 const stream = document.getElementById('chat-engine');
-                const div = document.createElement('div');
-                div.className = "interactive-card text-center";
-                div.id = "type-card";
-                div.innerHTML = `
-                    <h3 class="font-black text-slate-800 mb-3 text-lg">سؤال أخير سي ${this.state.user.name} 🤝</h3>
-                    <p class="text-sm text-slate-600 mb-4">واش فايت ليك درتي التأمين عندنا فالوكالة؟</p>
-                    <button class="btn-3d" style="background: linear-gradient(to bottom, #10b981, #047857); box-shadow: 0 6px 0 #022c22, 0 10px 15px rgba(0,0,0,0.2);" onclick="Core.setCustomerType('existing')">نعم، أنا زبون الوكالة 🌟</button>
-                    <button class="btn-3d mt-3" onclick="Core.setCustomerType('new')">لا، زبون جديد 🆕</button>
+                const card = document.createElement('div');
+                card.className = "card-3d text-center";
+                card.innerHTML = `
+                    <p class="mb-4 text-sm font-bold">${this.db.ar.type_q.replace('{name}', this.state.user.name)}</p>
+                    <button class="btn-3d mb-2 bg-green-600" style="box-shadow:0 5px 0 #064e3b" onclick="Core.setType('existing')">أنا زبون الوكالة 💎 Client Agence</button>
+                    <button class="btn-3d" onclick="Core.setType('new')">زبون جديد 🆕 Nouveau Client</button>
                 `;
-                stream.appendChild(div);
+                stream.appendChild(card);
                 this.scroll();
             },
 
-            setCustomerType(type) {
-                this.state.customerType = type;
-                document.getElementById('type-card').style.display = 'none';
-                
-                const userText = type === 'existing' ? "نعم، أنا زبون وفي للوكالة" : "أنا زبون جديد بغيت نكتشف عروضكم";
-                this.say(userText, 'user');
-                
-                // EmailJS (Sync CRM)
-                try {
-                    emailjs.init("bqWg9HMcoZY_pllTx");
-                    emailjs.send("service_3elb747", "template_lbf8ayd", { 
-                        from_name: this.state.user.name, phone_number: this.state.user.phone, customer_type: type 
-                    });
-                } catch(e) {}
-
-                this.showTyping();
+            setType(t) {
+                this.state.type = t;
+                document.querySelectorAll('.card-3d').forEach(c => c.style.display = 'none');
+                this.say(t === 'existing' ? "زبون الوكالة" : "زبون جديد", 'user');
                 setTimeout(() => {
-                    this.hideTyping();
-                    // Personalized Welcome based on status
-                    const welcomeMsg = type === 'existing' ? this.db.ar.marketing_welcomes.existing : this.db.ar.marketing_welcomes.new;
-                    this.say(welcomeMsg, 'bot');
-                    this.renderMainMenu();
-                }, 1200);
+                    this.say(t === 'existing' ? this.db.ar.old_client : this.db.ar.new_client, 'bot');
+                    document.getElementById('footer-control').style.display = 'block';
+                }, 600);
             },
 
-            // --- 5. MAIN MENU & CHAT ENGINE ---
-            renderMainMenu() {
-                const stream = document.getElementById('chat-engine');
-                const div = document.createElement('div');
-                div.className = "w-full mt-2";
+            // --- THE NEURAL LANGUAGE ENGINE ---
+            processMsg() {
+                const input = document.getElementById('user-input');
+                const val = input.value.trim();
+                if(!val) return;
                 
-                let html = '';
-                this.db.ar.menus.forEach(menu => {
-                    html += `
-                    <div class="option-btn" onclick="Core.forceAnswer('${menu.id}')">
-                        <div class="flex-1">
-                            <h4 class="text-[13px] text-blue-800 font-black">${menu.title}</h4>
-                            <p class="text-[10px] text-slate-500">${menu.desc}</p>
-                        </div>
-                        <i class="fas fa-chevron-left text-slate-300"></i>
-                    </div>`;
-                });
-                
-                div.innerHTML = html;
-                stream.appendChild(div);
-                document.getElementById('main-footer').style.display = 'block';
-                this.scroll();
-            },
+                this.say(val, 'user');
+                input.value = "";
 
-            forceAnswer(topicId) {
-                const reply = this.db.ar.kb[topicId].reply;
-                const title = this.db.ar.menus.find(m => m.id === topicId).title;
-                
-                this.say(title, 'user');
-                this.showTyping();
-                
+                // Detection Logic: check if input contains French-specific characters or common words
+                const isFrench = /[a-zA-Z]/.test(val) && (val.toLowerCase().includes('assurer') || val.toLowerCase().includes('accident') || val.toLowerCase().includes('adresse') || val.toLowerCase().includes('sante') || val.toLowerCase().includes('devis'));
+                const lang = isFrench ? 'fr' : 'ar';
+
                 setTimeout(() => {
-                    this.hideTyping();
-                    this.say(reply, 'bot');
+                    const v = val.toLowerCase();
+                    let res = this.db[lang].fallback;
+
+                    if(v.includes('سيار') || v.includes('auto') || v.includes('طوموبيل') || v.includes('موطور')) res = this.db[lang].auto;
+                    else if(v.includes('حادث') || v.includes('sinistre') || v.includes('كسيدة') || v.includes('تعويض')) res = this.db[lang].sinistre;
+                    else if(v.includes('صحة') || v.includes('sante') || v.includes('دوا') || v.includes('cnops')) res = this.db[lang].health;
+                    else if(v.includes('فين') || v.includes('عنوان') || v.includes('adresse') || v.includes('موقع')) res = this.db[lang].contact;
+
+                    this.say(res, 'bot');
                 }, 800);
             },
 
-            processText() {
-                const input = document.getElementById('user-msg');
-                const query = input.value.trim().toLowerCase();
-                if(!query) return;
-
-                this.say(query, 'user');
-                input.value = "";
-                this.showTyping();
-
-                let foundReply = this.db.ar.fallback;
-
-                // NLP Keyword Scanning
-                for (let category in this.db.ar.kb) {
-                    if (this.db.ar.kb[category].keys.some(k => query.includes(k))) {
-                        foundReply = this.db.ar.kb[category].reply;
-                        break;
-                    }
-                }
-
-                setTimeout(() => {
-                    this.hideTyping();
-                    this.say(foundReply, 'bot');
-                }, 1000);
-            },
-
-            // --- 6. UTILS ---
-            say(htmlContent, side) {
-                const stream = document.getElementById('chat-engine');
-                const div = document.createElement('div');
-                div.className = `bubble bubble-${side}`;
-                div.innerHTML = htmlContent;
-                stream.appendChild(div);
+            say(txt, side) {
+                const s = document.getElementById('chat-engine');
+                const d = document.createElement('div');
+                d.className = `bubble ${side}`;
+                d.innerHTML = txt;
+                s.appendChild(d);
                 this.scroll();
             },
-            
-            showTyping() { document.getElementById('typing').style.display = 'block'; this.scroll(); },
-            hideTyping() { document.getElementById('typing').style.display = 'none'; },
+
             scroll() { const e = document.getElementById('chat-engine'); e.scrollTo({top: e.scrollHeight, behavior: 'smooth'}); }
         };
 
-        // Start App
         window.onload = () => Core.init();
-
-        // Keyboard support
-        document.getElementById('user-msg').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') Core.processText();
-        });
     </script>
 </body>
 </html>
