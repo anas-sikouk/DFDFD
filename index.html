@@ -3,218 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtlantaSanad | Smart Neural Hub V9</title>
-    
+    <title>AtlantaSanad Smart Bot V10</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
-        :root { --main: #0054A6; --gold: #FFD700; --bg: #0f172a; }
+        :root { --main: #0054A6; --gold: #FFD700; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body { background: var(--bg); height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        body { background: #0f172a; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
-        /* 3D Glassmorphism Container */
         .app-window {
-            width: 100%; max-width: 450px; height: 92vh; background: rgba(255, 255, 255, 0.98);
-            border-radius: 35px; box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-            display: flex; flex-direction: column; position: relative; border: 4px solid #fff;
+            width: 100%; max-width: 450px; height: 95vh; background: #f8fafc;
+            border-radius: 30px; box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; position: relative; border: 2px solid rgba(255,255,255,0.1);
         }
 
         header {
-            background: linear-gradient(135deg, var(--main), #003366); padding: 20px; color: white;
-            border-bottom: 4px solid var(--gold); border-radius: 30px 30px 0 0;
+            background: linear-gradient(135deg, var(--main), #002244); padding: 18px; color: white;
+            border-bottom: 3px solid var(--gold); border-radius: 28px 28px 0 0;
         }
 
-        #chat-engine { flex: 1; padding: 20px; overflow-y: auto; background: #f1f5f9; display: flex; flex-direction: column; gap: 15px; }
+        #chat-box { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
         
         .bubble { 
-            max-width: 85%; padding: 15px; border-radius: 20px; font-size: 14px; line-height: 1.6;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 85%; padding: 14px; border-radius: 18px; font-size: 14px; line-height: 1.6;
+            animation: fadeIn 0.3s ease; position: relative;
         }
-        @keyframes pop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .bot { background: white; color: #1e293b; align-self: flex-start; border-bottom-right-radius: 2px; }
+        .bot { background: white; color: #1e293b; align-self: flex-start; border: 1px solid #e2e8f0; border-bottom-right-radius: 2px; shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .user { background: var(--main); color: white; align-self: flex-end; border-bottom-left-radius: 2px; }
 
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: 5px; }
-        
-        /* 3D Action Cards */
         .card-3d {
-            background: white; border: 2px solid #e2e8f0; padding: 20px; border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin-top: 10px;
+            background: white; border: 2px solid #e2e8f0; padding: 20px; border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); margin: 10px 0;
         }
-        .sys-input { width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #f1f5f9; margin-bottom: 10px; outline: none; transition: 0.3s; }
-        .sys-input:focus { border-color: var(--main); }
+        .sys-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; outline: none; }
         .btn-3d {
-            width: 100%; padding: 14px; border-radius: 12px; background: var(--main); color: white;
-            font-weight: 900; border: none; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #003366;
+            width: 100%; padding: 12px; border-radius: 10px; background: var(--main); color: white;
+            font-weight: 700; border: none; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 0 #002244;
         }
-        .btn-3d:active { transform: translateY(4px); box-shadow: none; }
+        .btn-3d:active { transform: translateY(3px); box-shadow: none; }
 
-        .footer-ui { padding: 15px; background: white; border-top: 1px solid #e2e8f0; display: none; }
-        .input-box { display: flex; background: #f1f5f9; border-radius: 50px; padding: 5px 15px; border: 1px solid #cbd5e1; }
-        .input-box input { flex: 1; background: transparent; border: none; padding: 10px; outline: none; }
+        .footer-bar { padding: 15px; background: white; border-top: 1px solid #eee; display: none; }
+        .input-group { display: flex; background: #f1f5f9; border-radius: 30px; padding: 5px 15px; border: 1px solid #ddd; }
+        .input-group input { flex: 1; background: transparent; border: none; padding: 8px; outline: none; }
     </style>
 </head>
 <body>
 
     <div class="app-window">
-        <header class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-12 h-12 bg-white p-1 rounded-xl shadow-lg">
-                <div>
-                    <h1 class="text-sm font-black">أطلنطا سند | سيدي قاسم</h1>
-                    <div id="live-status" class="text-[10px] flex items-center font-bold"></div>
-                </div>
+        <header class="flex items-center gap-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Logo_AtlantaSanad.png" class="w-10 h-10 bg-white p-1 rounded-lg">
+            <div>
+                <h1 class="text-xs font-black uppercase">AtlantaSanad | Sidi Kacem</h1>
+                <div id="status-tag" class="text-[9px] font-bold"></div>
             </div>
-            <div class="text-xs opacity-70">V9 Smart AI</div>
         </header>
 
-        <div id="chat-engine"></div>
+        <div id="chat-box"></div>
 
-        <footer class="footer-ui" id="footer-control">
-            <div class="input-box">
-                <input type="text" id="user-input" placeholder="اكتب سؤالك هنا / Écrivez ici...">
-                <button onclick="Core.processMsg()" class="text-blue-600 font-bold"><i class="fas fa-paper-plane"></i></button>
+        <footer class="footer-bar" id="input-area">
+            <div class="input-group">
+                <input type="text" id="msg-input" placeholder="اكتب سؤالك هنا / Posez votre question...">
+                <button onclick="App.processInput()" class="text-blue-700 ml-2"><i class="fas fa-paper-plane"></i></button>
             </div>
         </footer>
     </div>
 
     <script>
-        const Core = {
-            state: { user: null, type: null },
+        const App = {
+            user: null,
             
-            db: {
-                ar: {
-                    welcome: "مرحباً بك! أنا مساعدك الذكي لوكالة أطلنطا سند سيدي قاسم 🏛️. لتقديم خدمة ممتازة، من فضلك عرفنا بنفسك:",
-                    type_q: "تشرفنا سي {name}! واش أنت زبون قديم ديالنا ولا زبون جديد؟ 🤝",
-                    new_client: "أهلاً بك في عائلتنا! 🆕 كزبون جديد، غتستافد من أحسن العروض فالمغرب وسرعة خيالية فالحوادث.",
-                    old_client: "مرحباً بوفائك مجدداً! 💎 ما تنساش بلي سنتين ديال الوفاء كتعطيك 10% تخفيض فالتأمين.",
-                    auto: "🚗 <b>تأمين السيارات:</b> كنأمنو كلشي (سيارات، موطورات، تريبورتور). بعد عامين بلا حادثة (بمسؤوليتك) كتاخد 10% خصم!",
-                    sinistre: "⚠️ <b>عندك حادثة؟</b> جيب لينا الكونسطا والديڤي (Devis) وصور الأضرار، وحنا غنصيفطوك للخبير فالحين باش تبدا الإصلاح.",
-                    health: "🏥 <b>الملفات الصحية:</b> كندبرو ملفات CNOPS و AMC بكل احترافية، جيب لينا دواك وحنا نتبعو التعويض.",
-                    contact: "📍 <b>موقعنا:</b> سيدي قاسم، الحي الجديد، زنقة 5، عمارة 80. <br>📞 هاتف/فاكس: 0537595910",
-                    fallback: "🤖 مافهمتش سؤالك مزيان، واش كتقصد (تأمين، حادثة، عنوان، ملف صحي)؟"
+            // قاعدة البيانات الموسعة والمحسنة
+            kb: {
+                auto: {
+                    keys: ['سيار', 'طوموبيل', 'موطور', 'دراجة', 'تريبورتور', 'auto', 'voiture', 'assurance', 'moto'],
+                    ar: "🚗 <b>تأمين السيارات:</b> عندنا أحسن الأثمنة! وما تنساش بلي سنتين بلا حادثة (بمسؤوليتك) كتعطيك <b>10% تخفيض</b> فالتجديد الجاي. 🎁",
+                    fr: "🚗 <b>Assurance Auto:</b> Nous offrons les meilleurs tarifs ! N'oubliez pas que 2 ans sans sinistre responsable vous donnent <b>10% de remise</b>."
                 },
-                fr: {
-                    welcome: "Bienvenue ! Je suis l'assistant intelligent de l'agence AtlantaSanad Sidi Kacem 🏛️. Veuillez vous identifier :",
-                    type_q: "Enchanté M. {name} ! Êtes-vous déjà client chez nous ou un nouveau client ? 🤝",
-                    new_client: "Bienvenue parmi nous ! 🆕 Profitez des meilleures offres au Maroc et d'une gestion rapide de vos dossiers.",
-                    old_client: "Ravi de vous revoir ! 💎 N'oubliez pas que 2 ans de fidélité vous offrent 10% de remise sur votre assurance.",
-                    auto: "🚗 <b>Assurance Auto:</b> Nous assurons tout (Voitures, Motos, Triporteurs). Après 2 ans sans sinistre responsable, vous avez -10% !",
-                    sinistre: "⚠️ <b>Sinistre ?</b> Apportez le constat, le devis et les photos. Nous déclenchons l'expertise immédiatement pour le remboursement.",
-                    health: "🏥 <b>Santé:</b> Nous gérons vos dossiers CNOPS et AMC avec suivi rigoureux de vos remboursements.",
-                    contact: "📍 <b>Adresse:</b> Sidi Kacem, Nouveau Quartier, Rue 5, Imm 80. <br>📞 Tél/Fax: 0537595910",
-                    fallback: "🤖 Je n'ai pas bien compris. Voulez-vous des infos sur (Assurance, Sinistre, Adresse, Santé) ?"
+                accident: {
+                    keys: ['حادث', 'كسيدة', 'كونسطا', 'خبير', 'تعويض', 'صلح', 'accident', 'sinistre', 'constat', 'expert', 'remboursement'],
+                    ar: "⚠️ <b>عندك حادثة؟</b> ماتقلقش. جيب لينا الكونسطا والتصاور والديڤي (Devis)، وحنا غنتكلفو بالباقي مع الخبير باش تعوض فأسريع وقت. ⚡",
+                    fr: "⚠️ <b>Sinistre ?</b> Apportez le constat, les photos et le devis. Nous gérons l'expertise pour un remboursement rapide."
+                },
+                health: {
+                    keys: ['صحة', 'دوا', 'مرض', 'طبيب', 'تعاضدية', 'cnops', 'amc', 'sante', 'medical', 'mutuelle'],
+                    ar: "🏥 <b>الملفات الصحية:</b> كندبرو ملفات CNOPS و AMC. جيب لينا الملف وحنا غنتبعوه ليك باش يوصلك التعويض ديالك كامل. 💉",
+                    fr: "🏥 <b>Santé:</b> Nous gérons vos dossiers CNOPS et AMC avec un suivi rigoureux de vos remboursements."
+                },
+                contact: {
+                    keys: ['فين', 'موقع', 'عنوان', 'رقم', 'هاتف', 'adresse', 'localisation', 'tel', 'fax', 'contact'],
+                    ar: "📍 <b>موقعنا:</b> سيدي قاسم، الحي الجديد، زنقة 5، عمارة 80. <br>📞 هاتف/فاكس: <b>0537595910</b>",
+                    fr: "📍 <b>Adresse:</b> Sidi Kacem, Nouveau Quartier, Rue 5, Imm 80. <br>📞 Tél/Fax: <b>0537595910</b>"
                 }
             },
 
             init() {
-                this.checkTime();
-                this.say(this.db.ar.welcome, 'bot'); // Start with generic welcome
-                this.renderReg();
+                this.updateTime();
+                this.say("مرحباً بك في أطلنطا سند سيدي قاسم! 🏛️<br>Bienvenue chez AtlantaSanad !", 'bot');
+                this.showReg();
             },
 
-            checkTime() {
+            updateTime() {
                 const now = new Date();
                 const day = now.getDay();
-                const hr = now.getHours() + now.getMinutes()/60;
-                let open = (day >= 1 && day <= 5 && hr >= 8.5 && hr <= 18) || (day === 6 && hr >= 9 && hr <= 13);
-                const el = document.getElementById('live-status');
-                el.innerHTML = open ? `<span class="status-dot bg-green-500 animate-pulse"></span> مفتوح حالياً` : `<span class="status-dot bg-red-500"></span> مغلق الآن`;
-                el.classList.add(open ? 'text-green-500' : 'text-red-500');
+                const hr = now.getHours();
+                const open = (day >= 1 && day <= 5 && hr >= 8 && hr < 18) || (day === 6 && hr >= 9 && hr < 13);
+                const tag = document.getElementById('status-tag');
+                tag.innerHTML = open ? "🟢 OPEN / مفتوح" : "🔴 CLOSED / مغلق";
+                tag.style.color = open ? "#4ade80" : "#fb7185";
             },
 
-            renderReg() {
-                const stream = document.getElementById('chat-engine');
+            showReg() {
+                const box = document.getElementById('chat-box');
                 const card = document.createElement('div');
                 card.className = "card-3d";
                 card.innerHTML = `
-                    <input type="text" id="r-n" class="sys-input" placeholder="الاسم الكامل / Nom Complet">
-                    <input type="tel" id="r-p" class="sys-input" placeholder="رقم الهاتف / Téléphone">
-                    <button class="btn-3d" onclick="Core.doReg()">دخول / Entrer</button>
+                    <p class="text-xs font-bold mb-3">المرجو إدخال معلوماتك / Vos infos :</p>
+                    <input type="text" id="u-n" class="sys-input" placeholder="الاسم الكامل / Nom">
+                    <input type="tel" id="u-p" class="sys-input" placeholder="رقم الهاتف / Tél">
+                    <button class="btn-3d" onclick="App.saveReg()">دخول / Entrer</button>
                 `;
-                stream.appendChild(card);
-                this.scroll();
+                box.appendChild(card);
             },
 
-            doReg() {
-                const n = document.getElementById('r-n').value;
-                const p = document.getElementById('r-p').value;
-                if(n.length < 3 || p.length < 10) return;
-                this.state.user = { name: n, phone: p };
+            saveReg() {
+                const n = document.getElementById('u-n').value;
+                const p = document.getElementById('u-p').value;
+                if(n.length < 2 || p.length < 10) return alert("خطأ في البيانات!");
+                this.user = { name: n, phone: p };
                 document.querySelector('.card-3d').style.display = 'none';
                 this.say(n, 'user');
-                setTimeout(() => this.askType(), 600);
+                setTimeout(() => this.askType(), 500);
                 
                 emailjs.init("bqWg9HMcoZY_pllTx");
                 emailjs.send("service_3elb747", "template_lbf8ayd", { from_name: n, phone: p });
             },
 
             askType() {
-                const stream = document.getElementById('chat-engine');
+                const box = document.getElementById('chat-box');
                 const card = document.createElement('div');
                 card.className = "card-3d text-center";
                 card.innerHTML = `
-                    <p class="mb-4 text-sm font-bold">${this.db.ar.type_q.replace('{name}', this.state.user.name)}</p>
-                    <button class="btn-3d mb-2 bg-green-600" style="box-shadow:0 5px 0 #064e3b" onclick="Core.setType('existing')">أنا زبون الوكالة 💎 Client Agence</button>
-                    <button class="btn-3d" onclick="Core.setType('new')">زبون جديد 🆕 Nouveau Client</button>
+                    <p class="mb-3 text-sm font-bold">هل أنت زبون قديم أم جديد؟<br>Client actuel ou nouveau ?</p>
+                    <button class="btn-3d mb-2 bg-green-600" onclick="App.setType('old')">زبون الوكالة / Client</button>
+                    <button class="btn-3d" onclick="App.setType('new')">جديد / Nouveau</button>
                 `;
-                stream.appendChild(card);
+                box.appendChild(card);
                 this.scroll();
             },
 
             setType(t) {
-                this.state.type = t;
                 document.querySelectorAll('.card-3d').forEach(c => c.style.display = 'none');
-                this.say(t === 'existing' ? "زبون الوكالة" : "زبون جديد", 'user');
+                const msg = t === 'old' ? "أنا زبون قديم 💎" : "أنا زبون جديد 🆕";
+                this.say(msg, 'user');
                 setTimeout(() => {
-                    this.say(t === 'existing' ? this.db.ar.old_client : this.db.ar.new_client, 'bot');
-                    document.getElementById('footer-control').style.display = 'block';
+                    this.say(t === 'old' ? "مرحباً بوفائك! كيف يمكنني خدمتك؟" : "مرحباً بك! نحن هنا لنقدم لك أفضل عروض التأمين.", 'bot');
+                    document.getElementById('input-area').style.display = 'block';
                 }, 600);
             },
 
-            // --- THE NEURAL LANGUAGE ENGINE ---
-            processMsg() {
-                const input = document.getElementById('user-input');
-                const val = input.value.trim();
+            processInput() {
+                const inp = document.getElementById('msg-input');
+                const val = inp.value.trim().toLowerCase();
                 if(!val) return;
-                
-                this.say(val, 'user');
-                input.value = "";
 
-                // Detection Logic: check if input contains French-specific characters or common words
-                const isFrench = /[a-zA-Z]/.test(val) && (val.toLowerCase().includes('assurer') || val.toLowerCase().includes('accident') || val.toLowerCase().includes('adresse') || val.toLowerCase().includes('sante') || val.toLowerCase().includes('devis'));
-                const lang = isFrench ? 'fr' : 'ar';
+                this.say(val, 'user');
+                inp.value = "";
+
+                // اكتشاف اللغة (إذا كانت تحتوي على أحرف لاتينية فهي فرنسية)
+                const lang = /[a-z]/.test(val) ? 'fr' : 'ar';
+                let found = false;
 
                 setTimeout(() => {
-                    const v = val.toLowerCase();
-                    let res = this.db[lang].fallback;
+                    // البحث في الكلمات المفتاحية
+                    for (let key in this.kb) {
+                        if (this.kb[key].keys.some(k => val.includes(k))) {
+                            this.say(this.kb[key][lang], 'bot');
+                            found = true;
+                            break;
+                        }
+                    }
 
-                    if(v.includes('سيار') || v.includes('auto') || v.includes('طوموبيل') || v.includes('موطور')) res = this.db[lang].auto;
-                    else if(v.includes('حادث') || v.includes('sinistre') || v.includes('كسيدة') || v.includes('تعويض')) res = this.db[lang].sinistre;
-                    else if(v.includes('صحة') || v.includes('sante') || v.includes('دوا') || v.includes('cnops')) res = this.db[lang].health;
-                    else if(v.includes('فين') || v.includes('عنوان') || v.includes('adresse') || v.includes('موقع')) res = this.db[lang].contact;
-
-                    this.say(res, 'bot');
-                }, 800);
+                    if (!found) {
+                        this.say(lang === 'ar' ? "لم أفهم سؤالك جيداً، جرب كلمات مثل (تأمين، حادثة، عنوان، ملف صحي)." : "Je n'ai pas compris. Essayez (assurance, sinistre, adresse, santé).", 'bot');
+                    }
+                }, 700);
             },
 
             say(txt, side) {
-                const s = document.getElementById('chat-engine');
+                const box = document.getElementById('chat-box');
                 const d = document.createElement('div');
                 d.className = `bubble ${side}`;
                 d.innerHTML = txt;
-                s.appendChild(d);
+                box.appendChild(d);
                 this.scroll();
             },
 
-            scroll() { const e = document.getElementById('chat-engine'); e.scrollTo({top: e.scrollHeight, behavior: 'smooth'}); }
+            scroll() { const b = document.getElementById('chat-box'); b.scrollTo({top: b.scrollHeight, behavior: 'smooth'}); }
         };
 
-        window.onload = () => Core.init();
+        window.onload = () => App.init();
     </script>
 </body>
 </html>
